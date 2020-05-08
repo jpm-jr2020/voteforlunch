@@ -4,6 +4,7 @@ import com.herokuapp.voteforlunch.model.Restaurant;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -34,5 +35,15 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     @Override
     public boolean delete(long id) {
         return crudRepository.delete(id) != 0;
+    }
+
+    @Override
+    public Restaurant getWithMenu(long id, LocalDate date) {
+        return crudRepository.getWithMenus(id, date);
+    }
+
+    @Override
+    public List<Restaurant> getAllWithMenu(LocalDate date) {
+        return crudRepository.getAllWithMenus(date);
     }
 }

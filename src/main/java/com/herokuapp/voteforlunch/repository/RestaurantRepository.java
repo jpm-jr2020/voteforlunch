@@ -2,6 +2,7 @@ package com.herokuapp.voteforlunch.repository;
 
 import com.herokuapp.voteforlunch.model.Restaurant;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface RestaurantRepository {
@@ -18,4 +19,10 @@ public interface RestaurantRepository {
 
     // 2.5. Удалить ресторан
     boolean delete(long id);
+
+    // 1.3. Конкретный ресторан и его меню на сегодня
+    Restaurant getWithMenu(long id, LocalDate date);
+
+    // 1.2. Список всех ресторанов и их меню на сегодня
+    List<Restaurant> getAllWithMenu(LocalDate date);
 }

@@ -1,6 +1,6 @@
 package com.herokuapp.voteforlunch.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
+
 @Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity {
     @Column(name = "address", nullable = false)
@@ -17,7 +18,7 @@ public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @OrderBy("date DESC")
-    @JsonIgnore
+    @JsonManagedReference
     private Set<Dish> dishes;
 
     public Restaurant() {
@@ -43,17 +44,4 @@ public class Restaurant extends AbstractNamedEntity {
     public void setDishes(Set<Dish> dishes) {
         this.dishes = dishes;
     }
-
-//    WITH @MapKeyColumn
-//
-//  @ElementCollection
-//  @CollectionTable(name = "dishes",
-//        joinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
-//  @MapKeyColumn(name = "name")
-//  @Column(name = "price")
-//  private Map<String, Integer> dishes;
-//
-//  public Map<String, Integer> getDishes() {
-//    return dishes;
-//  }
 }

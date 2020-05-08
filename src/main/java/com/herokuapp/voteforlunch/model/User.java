@@ -9,8 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Set;
 
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -41,37 +39,15 @@ public class User extends AbstractNamedEntity {
     @BatchSize(size = 200)
     private Set<Role> roles;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-//    @JoinTable(name = "votes", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-//      inverseJoinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
-//    @MapKey(name = "restaurant_id")
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-//    @JoinTable(name = "votes", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-//      inverseJoinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
-//    @MapKeyTemporal(TemporalType.TIMESTAMP)
-
-//    @ElementCollection
-//    @CollectionTable(name = "votes", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
-//    @MapKeyColumn(name = "date_time")
-//    @Column(name = "restaurant_id")
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "votes", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-      inverseJoinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
-    @MapKeyJoinColumn(name = "date_time")
-    private Map<LocalDateTime, Restaurant> votes;
-
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, Boolean enabled, Set<Role> roles, Map<LocalDateTime, Restaurant> votes) {
+    public User(Long id, String name, String email, String password, Boolean enabled, Set<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
         this.enabled = enabled;
         this.roles = roles;
-        this.votes = votes;
     }
 
     public String getEmail() {
@@ -84,9 +60,5 @@ public class User extends AbstractNamedEntity {
 
     public Set<Role> getRoles() {
         return roles;
-    }
-
-    public Map<LocalDateTime, Restaurant> getVotes() {
-        return votes;
     }
 }

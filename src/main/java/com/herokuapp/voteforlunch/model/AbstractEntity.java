@@ -1,7 +1,6 @@
 package com.herokuapp.voteforlunch.model;
 
 import org.springframework.util.Assert;
-
 import javax.persistence.*;
 
 @MappedSuperclass

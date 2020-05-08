@@ -1,8 +1,12 @@
 package com.herokuapp.voteforlunch.util;
 
 import com.herokuapp.voteforlunch.model.AbstractEntity;
+import com.herokuapp.voteforlunch.model.Dish;
 import com.herokuapp.voteforlunch.util.exception.IllegalRequestDataException;
 import com.herokuapp.voteforlunch.util.exception.NotFoundException;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public class ValidationUtil {
 
@@ -37,6 +41,12 @@ public class ValidationUtil {
             bean.setId(id);
         } else if (bean.id() != id) {
             throw new IllegalRequestDataException(bean + " must be with id=" + id);
+        }
+    }
+
+    public static void checkMenuPresent(List<Dish> menu, long restaurantId, LocalDate date) {
+        if (menu.isEmpty()) {
+            throw new IllegalRequestDataException("restaurant " + restaurantId + " has no menu for " + date);
         }
     }
 }

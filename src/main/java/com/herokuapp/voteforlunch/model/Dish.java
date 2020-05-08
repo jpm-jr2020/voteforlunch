@@ -30,10 +30,6 @@ public class Dish extends AbstractNamedEntity {
     @JsonBackReference
     private Restaurant restaurant;
 
-//    // https://stackoverflow.com/questions/6311776/hibernate-foreign-keys-instead-of-entities
-//    @Column(name="fk_restaurant_id", insertable = false, updatable = false)
-//    private Long fk_restaurant_id;
-
     public Dish() {
     }
 

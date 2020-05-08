@@ -21,17 +21,4 @@ public class DateTimeFormatters {
             return lt.format(DateTimeFormatter.ISO_LOCAL_DATE);
         }
     }
-
-//    public static class LocalTimeFormatter implements Formatter<LocalTime> {
-//
-//        @Override
-//        public LocalTime parse(String text, Locale locale) {
-//            return parseLocalTime(text);
-//        }
-//
-//        @Override
-//        public String print(LocalTime lt, Locale locale) {
-//            return lt.format(DateTimeFormatter.ISO_LOCAL_TIME);
-//        }
-//    }
 }

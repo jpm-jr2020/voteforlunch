@@ -91,7 +91,7 @@ INSERT INTO dishes (name, price, date, fk_restaurant_id) VALUES
   ('Вино', 15000, '2020-05-01', 100010),          /*100_042*/
   ('Пицца-дзе', 40000, '2020-05-01', 100010);     /*100_043*/
 
-INSERT INTO votes (date_time, user_id, restaurant_id) VALUES
+INSERT INTO votes (date_time, fk_user_id, fk_restaurant_id) VALUES
   ('2020-04-29 10:00:00', 100000, 100006),          /*100_010*/
   ('2020-04-29 15:00:00', 100002, 100008),          /*100_010*/
   ('2020-04-29 14:00:00', 100004, 100010),          /*100_010*/
