@@ -11,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends AbstractNamedEntity {
@@ -22,15 +21,11 @@ public class User extends AbstractNamedEntity {
     private String email;
 
     @Column(name = "password", nullable = false)
-    @NotBlank
-    @Size(min = 5, max = 100)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    @Column(name = "enabled", nullable = false)
     private Boolean enabled;
 
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_unique_idx")})
@@ -54,11 +49,15 @@ public class User extends AbstractNamedEntity {
         return email;
     }
 
-    public Boolean getEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

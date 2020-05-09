@@ -26,7 +26,7 @@ import static com.herokuapp.voteforlunch.util.ValidationUtil.checkNotFoundWithAr
 public class VoteRestController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    static final String REST_URL = "/votes/{userId}";
+    static final String REST_URL = "/votes";
 
     @Autowired
     private VoteRepository voteRepository;
@@ -35,24 +35,23 @@ public class VoteRestController {
     private DishRepository dishRepository;
 
     @GetMapping
-    public List<Vote> getAll(@PathVariable long userId) {
-//        int userId = SecurityUtil.authUserId();
+    public List<Vote> getAll() {
+        long userId = SecurityUtil.authUserId();
         log.info("votes - user {} getAll", userId);
         return voteRepository.getAll(userId);
     }
 
     @GetMapping(value = "/filter")
-    public List<Vote> getBetween(@PathVariable long userId,
-                                 @RequestParam @Nullable LocalDate startDate,
+    public List<Vote> getBetween(@RequestParam @Nullable LocalDate startDate,
                                  @RequestParam @Nullable LocalDate endDate) {
-//        int userId = SecurityUtil.authUserId();
+        long userId = SecurityUtil.authUserId();
         log.info("votes - user {} getBetween dates ({} - {})", userId, startDate, endDate);
         return voteRepository.getBetween(userId, dateToStartOfDay(startDate), dateToStartOfNextDay(endDate));
     }
 
     @GetMapping(value = "/{date}")
-    public VoteTo getByDate(@PathVariable long userId, @PathVariable LocalDate date) {
-//        int userId = SecurityUtil.authUserId();
+    public VoteTo getByDate(@PathVariable LocalDate date) {
+        long userId = SecurityUtil.authUserId();
         log.info("votes - user {} getByDate {}", userId, date);
 //        return voteRepository.getBetween(userId, dateToStartOfDay(date), dateToStartOfNextDay(date));
         Vote vote = voteRepository.get(userId, dateToStartOfDay(date), dateToStartOfNextDay(date));
@@ -62,9 +61,9 @@ public class VoteRestController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void vote(@PathVariable long userId, @RequestParam long restaurantId) {
+    public void vote(@RequestParam long restaurantId) {
 
-//        int userId = SecurityUtil.authUserId();
+        long userId = SecurityUtil.authUserId();
 
 //        LocalDate date = LocalDate.now();
         LocalDate date = LocalDate.of(2020, 5, 1);

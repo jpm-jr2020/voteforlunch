@@ -11,6 +11,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class DateTimeUtil {
+    public static final LocalDate YESTERDAY = LocalDate.of(2020, 4, 29);
+    public static final LocalDate TODAY = LocalDate.of(2020, 4, 30);
+    public static final LocalDate TOMORROW = LocalDate.of(2020, 5, 1);
+
     public static final String DATE_PATTERN = "yyyy-MM-dd";
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
 

@@ -5,6 +5,7 @@ import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.repository.RestaurantRepository;
 import com.herokuapp.voteforlunch.repository.VoteRepository;
 import com.herokuapp.voteforlunch.to.RestaurantTo;
+import com.herokuapp.voteforlunch.util.DateTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,10 @@ public class TodayMenuRestController {
 
     @Cacheable("restaurants")
     @GetMapping
-    public List<RestaurantTo> getAll(@RequestParam long userId) {
+    public List<RestaurantTo> getAll() {
+        long userId = SecurityUtil.authUserId();
 //        LocalDate today = LocalDate.now();
-        LocalDate today = LocalDate.of(2020, 5, 1);
+        LocalDate today = DateTimeUtil.TODAY;
         log.info("today {} menus - getAll", today);
         List<Restaurant> restaurants = repository.getAllWithMenu(today);
         List<Vote> votes = voteRepository.getBetween(userId, dateToStartOfDay(today), dateToStartOfNextDay(today));
@@ -47,10 +49,10 @@ public class TodayMenuRestController {
     }
 
     @GetMapping(value = "/{id}")
-    public RestaurantTo getWithMenu(@PathVariable long id, @RequestParam long userId) {
-//        int userId = SecurityUtil.authUserId();
+    public RestaurantTo getWithMenu(@PathVariable long id) {
+        long userId = SecurityUtil.authUserId();
 //        LocalDate today = LocalDate.now();
-        LocalDate today = LocalDate.of(2020, 5, 1);
+        LocalDate today = DateTimeUtil.TODAY;
         log.info("today {} menus - get by restaurant {}", today, id);
         Restaurant restaurant = checkNotFoundWithArg(repository.getWithMenu(id, today), id);
         List<Vote> votes = voteRepository.getBetween(userId, dateToStartOfDay(today), dateToStartOfNextDay(today));
