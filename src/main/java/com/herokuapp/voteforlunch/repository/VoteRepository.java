@@ -15,5 +15,7 @@ public interface VoteRepository {
      List<Vote> getBetween(long userId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     Vote save(Vote vote, long restaurantId);
+
+    Vote get(long userId, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }
 

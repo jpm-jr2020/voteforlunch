@@ -3,6 +3,7 @@ package com.herokuapp.voteforlunch.web;
 import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.repository.DishRepository;
 import com.herokuapp.voteforlunch.repository.VoteRepository;
+import com.herokuapp.voteforlunch.to.VoteTo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static com.herokuapp.voteforlunch.util.DateTimeUtil.*;
 import static com.herokuapp.voteforlunch.util.ValidationUtil.checkMenuPresent;
+import static com.herokuapp.voteforlunch.util.ValidationUtil.checkNotFoundWithArg;
 
 @RestController
 @RequestMapping(value = VoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,10 +51,13 @@ public class VoteRestController {
     }
 
     @GetMapping(value = "/{date}")
-    public List<Vote> getByDate(@PathVariable long userId, @PathVariable LocalDate date) {
+    public VoteTo getByDate(@PathVariable long userId, @PathVariable LocalDate date) {
 //        int userId = SecurityUtil.authUserId();
         log.info("votes - user {} getByDate {}", userId, date);
-        return voteRepository.getBetween(userId, dateToStartOfDay(date), dateToStartOfNextDay(date));
+//        return voteRepository.getBetween(userId, dateToStartOfDay(date), dateToStartOfNextDay(date));
+        Vote vote = voteRepository.get(userId, dateToStartOfDay(date), dateToStartOfNextDay(date));
+        checkNotFoundWithArg(vote, "date=" + date);
+        return new VoteTo(vote);
     }
 
     @PostMapping

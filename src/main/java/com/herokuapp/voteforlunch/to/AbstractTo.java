@@ -16,4 +16,8 @@ public abstract class AbstractTo {
     public String getName() {
         return name;
     }
+
+    public boolean isNew() {
+        return getId() == null;
+    }
 }

@@ -1,6 +1,7 @@
 package com.herokuapp.voteforlunch.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.herokuapp.voteforlunch.to.DishTo;
 import com.herokuapp.voteforlunch.util.DateTimeUtil;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -36,6 +37,12 @@ public class Dish extends AbstractNamedEntity {
     public Dish(Long id, String name, Integer price, LocalDate date) {
         super(id, name);
         this.price = price;
+        this.date = date;
+    }
+
+    public Dish(DishTo dishTo, LocalDate date) {
+        super(dishTo.getId(), dishTo.getName());
+        this.price = dishTo.getPrice();
         this.date = date;
     }
 

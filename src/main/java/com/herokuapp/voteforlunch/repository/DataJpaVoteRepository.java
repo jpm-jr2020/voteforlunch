@@ -33,4 +33,14 @@ public class DataJpaVoteRepository implements VoteRepository {
         vote.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
         return crudVoteRepository.save(vote);
     }
+
+    @Override
+    public Vote get(long userId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        List<Vote> votes = crudVoteRepository.getBetween(userId, startDateTime, endDateTime);
+        if (!votes.isEmpty()) {
+            Vote vote = votes.get(0);
+            vote.setRestaurant(crudRestaurantRepository.getWithMenus(vote.getRestaurant().getId(), startDateTime.toLocalDate()));
+            return vote;
+        } else return null;
+    }
 }

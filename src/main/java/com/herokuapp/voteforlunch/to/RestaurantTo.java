@@ -1,34 +1,27 @@
 package com.herokuapp.voteforlunch.to;
 
 import com.herokuapp.voteforlunch.model.Dish;
+import com.herokuapp.voteforlunch.model.Restaurant;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 public class RestaurantTo extends AbstractTo {
     private String address;
-    private Boolean voted;
-    private Set<Dish> todayMenu;
+    private boolean voted;
+    private Set<DishTo> todayMenu;
 
-    public RestaurantTo(Long id, String name, String address, Boolean voted) {
-        this(id, name, address, voted, null);
-    }
-
-    public RestaurantTo(Long id, String name, String address, Boolean voted, Set<Dish> todayMenu) {
-        super(id, name);
-        this.address = address;
+    public RestaurantTo(Restaurant restaurant, boolean voted) {
+        super(restaurant.getId(), restaurant.getName());
+        this.address = restaurant.getAddress();
         this.voted = voted;
-        this.todayMenu = todayMenu;
+        this.todayMenu = loadMenu(restaurant.getDishes());
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public Boolean getVoted() {
-        return voted;
-    }
-
-    public Set<Dish> getTodayMenu() {
+    private Set<DishTo> loadMenu(Set<Dish> dishes) {
+        todayMenu = new TreeSet<>();
+        dishes.forEach(dish -> todayMenu.add(new DishTo(dish)));
         return todayMenu;
     }
+
 }

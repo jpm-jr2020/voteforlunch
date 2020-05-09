@@ -1,5 +1,6 @@
 package com.herokuapp.voteforlunch.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.herokuapp.voteforlunch.util.DateTimeUtil;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "votes")
+@JsonIgnoreProperties({"id", "userId"})
 public class Vote extends AbstractEntity {
     @Column(name = "date_time", nullable = false)
     @NotNull
@@ -50,10 +52,6 @@ public class Vote extends AbstractEntity {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-    }
-
-    public LocalDate getD() {
-        return null;
     }
 
     public Long getUserId() {
