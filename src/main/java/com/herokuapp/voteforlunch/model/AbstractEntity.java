@@ -40,7 +40,7 @@ public abstract class AbstractEntity {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ":" + id;
+        return getClass().getSimpleName().toLowerCase() + " with id = " + id;
     }
 
     @Override

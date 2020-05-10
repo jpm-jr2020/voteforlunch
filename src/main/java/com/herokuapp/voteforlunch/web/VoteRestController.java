@@ -4,6 +4,7 @@ import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.repository.DishRepository;
 import com.herokuapp.voteforlunch.repository.VoteRepository;
 import com.herokuapp.voteforlunch.to.VoteTo;
+import com.herokuapp.voteforlunch.util.DateTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class VoteRestController {
         log.info("votes - user {} getByDate {}", userId, date);
 //        return voteRepository.getBetween(userId, dateToStartOfDay(date), dateToStartOfNextDay(date));
         Vote vote = voteRepository.get(userId, dateToStartOfDay(date), dateToStartOfNextDay(date));
-        checkNotFoundWithArg(vote, "date=" + date);
+        checkNotFoundWithArg(vote, "vote of user with id = " + userId + " for date = " + date);
         return new VoteTo(vote);
     }
 
@@ -66,11 +67,11 @@ public class VoteRestController {
         long userId = SecurityUtil.authUserId();
 
 //        LocalDate date = LocalDate.now();
-        LocalDate date = LocalDate.of(2020, 5, 1);
+        LocalDate today = DateTimeUtil.TODAY;
 //        LocalTime time = LocalTime.now();
         LocalTime time = LocalTime.of(10, 0);
 //        LocalDateTime dateTime = LocalDateTime.now();
-        LocalDateTime dateTime = LocalDateTime.of(2020, 5, 1, 10, 0);
+        LocalDateTime dateTime = LocalDateTime.of(today, time);
 
         log.info("vote - user {} for restaurant {} at {}", userId, restaurantId, dateTime);
 

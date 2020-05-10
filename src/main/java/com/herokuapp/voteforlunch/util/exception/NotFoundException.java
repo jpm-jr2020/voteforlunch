@@ -1,7 +1,7 @@
 package com.herokuapp.voteforlunch.util.exception;
 
 public class NotFoundException extends ApplicationException {
-    public static final String NOT_FOUND_EXCEPTION = "exception.common.notFound";
+    public static final String NOT_FOUND_EXCEPTION = "Not found: ";
 
     //  http://stackoverflow.com/a/22358422/548473
     public NotFoundException(String arg) {

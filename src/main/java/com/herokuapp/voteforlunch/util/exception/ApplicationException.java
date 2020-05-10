@@ -5,17 +5,17 @@ import java.util.Arrays;
 public class ApplicationException extends RuntimeException {
 
     private final ErrorType type;
-    private final String msgCode;
+    private final String msg;
     private final String[] args;
 
-    public ApplicationException(String msgCode) {
-        this(ErrorType.APP_ERROR, msgCode);
+    public ApplicationException(String msg) {
+        this(ErrorType.APP_ERROR, msg);
     }
 
-    public ApplicationException(ErrorType type, String msgCode, String... args) {
-        super(String.format("type=%s, msgCode=%s, args=%s", type, msgCode, Arrays.toString(args)));
+    public ApplicationException(ErrorType type, String msg, String... args) {
+        super(String.format("type=%s, msgCode=%s, args=%s", type, msg, Arrays.toString(args)));
         this.type = type;
-        this.msgCode = msgCode;
+        this.msg = msg;
         this.args = args;
     }
 
@@ -23,8 +23,8 @@ public class ApplicationException extends RuntimeException {
         return type;
     }
 
-    public String getMsgCode() {
-        return msgCode;
+    public String getMsg() {
+        return msg;
     }
 
     public String[] getArgs() {

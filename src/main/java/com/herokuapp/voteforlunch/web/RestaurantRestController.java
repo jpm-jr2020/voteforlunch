@@ -27,6 +27,8 @@ public class RestaurantRestController {
 
     static final String REST_URL = "/admin/restaurants";
 
+    private static final String ENTITY_NAME = "restaurant";
+
     @Autowired
     private RestaurantRepository repository;
 
@@ -40,7 +42,7 @@ public class RestaurantRestController {
     @GetMapping(value = "/{id}")
     public Restaurant get(@PathVariable long id) {
         log.info("restaurants - get {}", id);
-        return checkNotFoundWithArg(repository.get(id), id);
+        return checkNotFoundWithArg(repository.get(id), ENTITY_NAME, id);
     }
 
     @CacheEvict(value = "restaurants", allEntries = true)
@@ -72,6 +74,6 @@ public class RestaurantRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
         log.info("restaurants - delete {}", id);
-        checkNotFoundWithArg(repository.delete(id), id);
+        checkNotFoundWithArg(repository.delete(id), ENTITY_NAME, id);
     }
 }

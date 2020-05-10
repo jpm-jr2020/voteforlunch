@@ -26,13 +26,15 @@ public class DishRestController {
 
     static final String REST_URL = "/admin/restaurants/{restaurantId}/menu/{date}/dishes";
 
+    private static final String ENTITY_NAME = "dish";
+
     @Autowired
     private DishRepository repository;
 
     @GetMapping(value = "/{id}")
     public DishTo get(@PathVariable long id) {
         log.info("dishes - get {}", id);
-        return new DishTo(checkNotFoundWithArg(repository.get(id), id));
+        return new DishTo(checkNotFoundWithArg(repository.get(id), ENTITY_NAME, id));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -64,6 +66,6 @@ public class DishRestController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
         log.info("dishes - delete {}", id);
-        checkNotFoundWithArg(repository.delete(id), id);
+        checkNotFoundWithArg(repository.delete(id), ENTITY_NAME, id);
     }
 }

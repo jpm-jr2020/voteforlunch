@@ -26,6 +26,8 @@ public class MenuRestController {
 
     static final String REST_URL = "/admin/restaurants/{restaurantId}/menu";
 
+    private static final String ENTITY_NAME = "restaurant";
+
     @Autowired
     private DishRepository dishRepository;
 
@@ -35,7 +37,7 @@ public class MenuRestController {
     @GetMapping
     public MenuTo getAll(@PathVariable long restaurantId) {
         log.info("menus - getAll for restaurant {}", restaurantId);
-        Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.get(restaurantId), restaurantId);
+        Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.get(restaurantId), ENTITY_NAME, restaurantId);
         return new MenuTo(restaurant, dishRepository.getAll(restaurantId));
     }
 
@@ -44,14 +46,14 @@ public class MenuRestController {
                                  @RequestParam @Nullable LocalDate startDate,
                                  @RequestParam @Nullable LocalDate endDate) {
         log.info("menus - getBetween dates({} - {}) for restaurant {}", startDate, endDate, restaurantId);
-        Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.get(restaurantId), restaurantId);
+        Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.get(restaurantId), ENTITY_NAME, restaurantId);
         return new MenuTo(restaurant, dishRepository.getBetween(restaurantId, nullDateToMin(startDate), nullDateToMax(endDate)));
     }
 
     @GetMapping(value = "/{date}")
     public MenuTo getByDate(@PathVariable long restaurantId, @PathVariable LocalDate date) {
         log.info("menus - getByDate {} for restaurant {}", date, restaurantId);
-        Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.get(restaurantId), restaurantId);
+        Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.get(restaurantId), ENTITY_NAME, restaurantId);
         return new MenuTo(restaurant, dishRepository.getByDate(restaurantId, date));
     }
 }

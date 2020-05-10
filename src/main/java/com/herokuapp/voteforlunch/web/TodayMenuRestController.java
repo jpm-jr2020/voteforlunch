@@ -28,6 +28,8 @@ public class TodayMenuRestController {
 
     static final String REST_URL = "/restaurants";
 
+    private static final String ENTITY_NAME = "restaurant";
+
     @Autowired
     private RestaurantRepository repository;
 
@@ -54,7 +56,7 @@ public class TodayMenuRestController {
 //        LocalDate today = LocalDate.now();
         LocalDate today = DateTimeUtil.TODAY;
         log.info("today {} menus - get by restaurant {}", today, id);
-        Restaurant restaurant = checkNotFoundWithArg(repository.getWithMenu(id, today), id);
+        Restaurant restaurant = checkNotFoundWithArg(repository.getWithMenu(id, today), ENTITY_NAME, id);
         List<Vote> votes = voteRepository.getBetween(userId, dateToStartOfDay(today), dateToStartOfNextDay(today));
         return new RestaurantTo(restaurant, votes.isEmpty() ? false : votes.get(0).getRestaurant().equals(restaurant));
     }
