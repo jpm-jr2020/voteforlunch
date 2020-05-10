@@ -67,11 +67,11 @@ public class VoteRestController {
         long userId = SecurityUtil.authUserId();
 
 //        LocalDate date = LocalDate.now();
-        LocalDate today = DateTimeUtil.TODAY;
+        LocalDate date = DateTimeUtil.TODAY;
 //        LocalTime time = LocalTime.now();
         LocalTime time = LocalTime.of(10, 0);
 //        LocalDateTime dateTime = LocalDateTime.now();
-        LocalDateTime dateTime = LocalDateTime.of(today, time);
+        LocalDateTime dateTime = LocalDateTime.of(date, time);
 
         log.info("vote - user {} for restaurant {} at {}", userId, restaurantId, dateTime);
 
