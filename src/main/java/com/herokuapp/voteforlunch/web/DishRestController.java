@@ -2,7 +2,6 @@ package com.herokuapp.voteforlunch.web;
 
 import com.herokuapp.voteforlunch.model.Dish;
 import com.herokuapp.voteforlunch.service.DishService;
-import com.herokuapp.voteforlunch.service.RestaurantService;
 import com.herokuapp.voteforlunch.to.DishTo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

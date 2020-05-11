@@ -1,5 +1,8 @@
 package com.herokuapp.voteforlunch.to;
 
+import com.herokuapp.voteforlunch.model.AbstractEntity;
+import org.hibernate.Hibernate;
+
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -37,5 +40,22 @@ public abstract class AbstractTo {
     public String toString() {
         String className = getClass().getSimpleName();
         return className.substring(0, className.length() - 2).toLowerCase() + " with id = " + id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
+            return false;
+        }
+        AbstractTo that = (AbstractTo) o;
+        return id != null && id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id == null ? 0 : id.intValue();
     }
 }

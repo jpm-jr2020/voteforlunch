@@ -13,14 +13,14 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface CrudDishRepository extends JpaRepository<Dish, Long> {
 
-    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId ORDER BY d.date DESC")
+    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId ORDER BY d.name ASC")
     List<Dish> getAll(@Param("restaurantId") long restaurantId);
 
-    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId AND d.date>=:startDate AND d.date<=:endDate ORDER BY d.date DESC")
+    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId AND d.date>=:startDate AND d.date<=:endDate ORDER BY d.name ASC")
     List<Dish> getBetween(@Param("restaurantId") long restaurantId,
                           @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId AND d.date=:date ORDER BY d.date DESC")
+    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId AND d.date=:date ORDER BY d.name ASC")
     List<Dish> getByDate(@Param("restaurantId") long restaurantId, @Param("date") LocalDate date);
 
     @Modifying

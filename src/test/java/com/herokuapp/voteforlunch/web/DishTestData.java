@@ -1,6 +1,7 @@
 package com.herokuapp.voteforlunch.web;
 
 import com.herokuapp.voteforlunch.to.DishTo;
+import com.herokuapp.voteforlunch.to.MenuTo;
 
 import static com.herokuapp.voteforlunch.model.AbstractEntity.START_SEQ;
 
