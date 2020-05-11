@@ -2,6 +2,8 @@ package com.herokuapp.voteforlunch.web;
 
 import com.herokuapp.voteforlunch.model.Restaurant;
 import com.herokuapp.voteforlunch.repository.RestaurantRepository;
+import com.herokuapp.voteforlunch.service.RestaurantService;
+import com.herokuapp.voteforlunch.util.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,7 +25,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = RestaurantRestController.REST_URL + '/';
 
     @Autowired
-    private RestaurantRepository repository;
+    private RestaurantService service;
 
     // GET ALL tests
 
@@ -96,7 +98,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
         long newId = created.getId();
         newRestaurant.setId(newId);
         RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
-        RESTAURANT_MATCHER.assertMatch(repository.get(newId), newRestaurant);
+        RESTAURANT_MATCHER.assertMatch(service.get(newId), newRestaurant);
     }
 
     @Test
@@ -130,7 +132,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
         Restaurant newRestaurant = RestaurantTestData.getNew();
         newRestaurant.setId(1L);
         super.createNotNullId(REST_URL, newRestaurant);
-        assertNull(repository.get(1L));
+        assertThrows(NotFoundException.class, () -> service.get(1L));
     }
 
     @Test
@@ -160,36 +162,36 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent())
                 .andDo(print());
 
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), updated);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), updated);
     }
 
     @Test
     void updateNotFound() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
         super.updateInvalidUrlParameter(REST_URL + 1, updated);
-        assertNull(repository.get(1L));
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), RESTAURANT_PR);
+        assertThrows(NotFoundException.class, () -> service.get(1L));
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
     @Test
     void updateInvalidId() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
         super.updateInvalidUrlParameter(REST_URL + "abc", updated);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), RESTAURANT_PR);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
     @Test
     void updateByUser() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
         super.updateByUser(REST_URL + RESTAURANT_PR_ID, updated);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), RESTAURANT_PR);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
     @Test
     void updateByUnAuth() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
         super.updateByUnAuth(REST_URL + RESTAURANT_PR_ID, updated);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), RESTAURANT_PR);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
     @Test
@@ -197,7 +199,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
         Restaurant updated = RestaurantTestData.getUpdated();
         updated.setAddress("A");
         super.updateInvalidField(REST_URL + RESTAURANT_PR_ID, updated);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), RESTAURANT_PR);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
     @Test
@@ -205,7 +207,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
         Restaurant updated = RestaurantTestData.getUpdated();
         updated.setName("A");
         super.updateInvalidField(REST_URL + RESTAURANT_PR_ID, updated);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), RESTAURANT_PR);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
     @Test
@@ -213,7 +215,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
         Restaurant updated = RestaurantTestData.getUpdated();
         updated.setId(1L);
         super.updateDifferentIds(REST_URL + RESTAURANT_PR_ID, updated);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), RESTAURANT_PR);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
     @Test
@@ -228,7 +230,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
                 .andDo(print());
 
         updated.setId(RESTAURANT_PR_ID);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), updated);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), updated);
     }
 
     @Test
@@ -238,14 +240,14 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
         updated.setName(RESTAURANT_DD.getName());
         updated.setAddress(RESTAURANT_DD.getAddress());
         super.updateDuplicated(REST_URL + RESTAURANT_PR_ID, updated, ExceptionInfoHandler.EXCEPTION_DUPLICATE_RESTAURANT);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), RESTAURANT_PR);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
     @Test
     void updateInvalidJson() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
         super.updateInvalidJson(REST_URL + RESTAURANT_PR_ID, updated);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_PR_ID), RESTAURANT_PR);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
     // DELETE tests
@@ -256,8 +258,8 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isNoContent())
                 .andDo(print());
-//        assertThrows(NotFoundException.class, () -> repository.get(RESTAURANT_BK_ID));
-        assertNull(repository.get(RESTAURANT_BK_ID));
+        assertThrows(NotFoundException.class, () -> service.get(RESTAURANT_BK_ID));
+//        assertNull(service.get(RESTAURANT_BK_ID));
     }
 
     @Test
@@ -273,12 +275,12 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @Test
     void deleteByUser() throws Exception {
         super.deleteByUser(REST_URL + RESTAURANT_BK_ID);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_BK_ID), RESTAURANT_BK);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_BK_ID), RESTAURANT_BK);
     }
 
     @Test
     void deleteByUnAuth() throws Exception {
         super.deleteByUnAuth(REST_URL + RESTAURANT_BK_ID);
-        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_BK_ID), RESTAURANT_BK);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_BK_ID), RESTAURANT_BK);
     }
 }

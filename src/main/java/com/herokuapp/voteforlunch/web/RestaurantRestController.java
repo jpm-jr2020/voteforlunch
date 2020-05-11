@@ -2,6 +2,7 @@ package com.herokuapp.voteforlunch.web;
 
 import com.herokuapp.voteforlunch.model.Restaurant;
 import com.herokuapp.voteforlunch.repository.RestaurantRepository;
+import com.herokuapp.voteforlunch.service.RestaurantService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,31 +29,25 @@ public class RestaurantRestController {
 
     static final String REST_URL = "/admin/restaurants";
 
-    private static final String ENTITY_NAME = "restaurant";
-
     @Autowired
-    private RestaurantRepository repository;
+    private RestaurantService service;
 
-//    @Cacheable("restaurants")
     @GetMapping
     public List<Restaurant> getAll() {
         log.info("restaurants - getAll");
-        return repository.getAll();
+        return service.getAll();
     }
 
     @GetMapping(value = "/{id}")
     public Restaurant get(@PathVariable long id) {
         log.info("restaurants - get {}", id);
-        return checkNotFoundWithArg(repository.get(id), ENTITY_NAME, id);
+        return service.get(id);
     }
 
-//    @CacheEvict(value = "restaurants", allEntries = true)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         log.info("restaurants - create {}", restaurant);
-        Assert.notNull(restaurant, "restaurant must not be null");
-        checkNew(restaurant);
-        Restaurant created = repository.save(restaurant);
+        Restaurant created = service.create(restaurant);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -60,15 +55,11 @@ public class RestaurantRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-//    @CacheEvict(value = "restaurants", allEntries = true)
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable long id) {
         log.info("restaurants - update {} with id={}", restaurant, id);
-        Assert.notNull(restaurant, "restaurant must not be null");
-        assureIdConsistent(restaurant, id);
-        checkNotFoundWithArg(repository.existsById(id), ENTITY_NAME, id);
-        repository.save(restaurant);
+        service.update(restaurant, id);
     }
 
 //    @CacheEvict(value = "restaurants", allEntries = true)
@@ -76,6 +67,6 @@ public class RestaurantRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {
         log.info("restaurants - delete {}", id);
-        checkNotFoundWithArg(repository.delete(id), ENTITY_NAME, id);
+        service.delete(id);
     }
 }

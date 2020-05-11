@@ -355,39 +355,80 @@ class DishRestControllerTest extends AbstractControllerTest {
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
 
-    //    // DELETE tests
-//
-//    @Test
-//    void delete() throws Exception {
-//        perform(MockMvcRequestBuilders.delete(REST_URL + RESTAURANT_BK_ID)
-//                .with(userHttpBasic(ADMIN_INGA)))
-//                .andExpect(status().isNoContent())
-//                .andDo(print());
-////        assertThrows(NotFoundException.class, () -> repository.get(RESTAURANT_BK_ID));
-//        assertNull(repository.get(RESTAURANT_BK_ID));
-//    }
-//
-//    @Test
-//    void deleteNotFound() throws Exception {
-//        super.deleteNotFound(REST_URL + 1);
-//    }
-//
-//    @Test
-//    void deleteInvalidId() throws Exception {
-//        super.deleteInvalidUrlParameter(REST_URL + "abc");
-//    }
-//
-//    @Test
-//    void deleteByUser() throws Exception {
-//        super.deleteByUser(REST_URL + RESTAURANT_BK_ID);
-//        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_BK_ID), RESTAURANT_BK);
-//    }
-//
-//    @Test
-//    void deleteByUnAuth() throws Exception {
-//        super.deleteByUnAuth(REST_URL + RESTAURANT_BK_ID);
-//        RESTAURANT_MATCHER.assertMatch(repository.get(RESTAURANT_BK_ID), RESTAURANT_BK);
-//    }
+    // DELETE tests
+
+    @Test
+    void delete() throws Exception {
+        String url = composeUrl(REST_URL, RESTAURANT_HI_ID, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
+        perform(MockMvcRequestBuilders.delete(url)
+                .with(userHttpBasic(ADMIN_INGA)))
+                .andExpect(status().isNoContent())
+                .andDo(print());
+//        assertThrows(NotFoundException.class, () -> repository.get(RESTAURANT_BK_ID));
+        assertNull(repository.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY));
+    }
+
+    @Test
+    void deleteNotFound() throws Exception {
+        String url = composeUrl(REST_URL, RESTAURANT_HI_ID, DateTimeUtil.TODAY) + 1;
+        super.deleteNotFound(url);
+    }
+
+    @Test
+    void deleteInvalidId() throws Exception {
+        String url = composeUrl(REST_URL, RESTAURANT_HI_ID, DateTimeUtil.TODAY) + "abc";
+        super.deleteInvalidUrlParameter(url);
+    }
+
+    @Test
+    void deleteByUser() throws Exception {
+        String url = composeUrl(REST_URL, RESTAURANT_HI_ID, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
+        super.deleteByUser(url);
+        DishTo remained = new DishTo(repository.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY));
+        DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
+    }
+
+    @Test
+    void deleteByUnAuth() throws Exception {
+        String url = composeUrl(REST_URL, RESTAURANT_HI_ID, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
+        super.deleteByUnAuth(url);
+        DishTo remained = new DishTo(repository.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY));
+        DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
+    }
+
+    @Test
+    void deleteInvalidRestaurant() throws Exception {
+        String url = composeUrl(REST_URL, "abc", DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
+        super.deleteInvalidUrlParameter(url);
+        DishTo remained = new DishTo(repository.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY));
+        DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
+    }
+
+    @Test
+    void deleteNotFoundRestaurant() throws Exception {
+        String url = composeUrl(REST_URL, 1L, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
+        super.deleteNotFound(url);
+        DishTo remained = new DishTo(repository.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY));
+        DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
+    }
+
+    @Test
+    void deleteInvalidDate() throws Exception {
+        String url = composeUrl(REST_URL, RESTAURANT_HI_ID, "abc") + DISH_HI_TODAY2_ID;
+        super.deleteInvalidUrlParameter(url);
+        DishTo remained = new DishTo(repository.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY));
+        DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
+    }
+
+    @Test
+    void deleteOtherDate() throws Exception {
+        String url = composeUrl(REST_URL, RESTAURANT_HI_ID, DateTimeUtil.TOMORROW) + DISH_HI_TODAY2_ID;
+        super.deleteNotFound(url);
+        DishTo remained = new DishTo(repository.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY));
+        DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
+    }
+
+    // Helper methods
 
     private String composeUrl(String url, Long restaurantId, LocalDate date) {
         return REST_URL.replace("{restaurantId}", restaurantId.toString())
