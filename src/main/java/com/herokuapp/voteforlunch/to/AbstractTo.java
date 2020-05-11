@@ -1,7 +1,15 @@
 package com.herokuapp.voteforlunch.to;
 
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public abstract class AbstractTo {
+    @Id
     protected Long id;
+
+    @NotBlank
+    @Size(min = 2, max = 100)
     protected String name;
 
     public AbstractTo(Long id, String name) {
@@ -11,6 +19,10 @@ public abstract class AbstractTo {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

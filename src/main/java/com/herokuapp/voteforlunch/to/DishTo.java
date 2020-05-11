@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.herokuapp.voteforlunch.model.Dish;
 
+import javax.validation.constraints.PositiveOrZero;
+
 public class DishTo extends AbstractTo implements Comparable<DishTo> {
     private Integer price;
 
@@ -23,6 +25,7 @@ public class DishTo extends AbstractTo implements Comparable<DishTo> {
         this.price = dish.getPrice();
     }
 
+    @PositiveOrZero
     public Integer getPrice() {
         return price;
     }

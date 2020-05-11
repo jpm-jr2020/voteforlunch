@@ -17,13 +17,15 @@ public interface DishRepository {
     List<Dish> getByDate(long restaurantId, LocalDate date);
 
     // 2.9. Блюдо в меню конкретного ресторана на дату
-    Dish get(long id);
+    Dish get(long id, long restaurantId, LocalDate date);
 
     // 2.10. Добавить блюдо в меню конкретного ресторана на дату
     // 2.12. Обновить блюдо в меню конкретного ресторана на дату
-    Dish save(Dish dish, long restaurantId);
+    Dish save(Dish dish, long restaurantId, LocalDate date);
 
     // 2.11. Удалить блюдо из меню конкретного ресторана на дату
-    boolean delete(long id);
+    boolean delete(long id, long restaurantId, LocalDate date);
+
+    boolean existsById(long id);
 }
 

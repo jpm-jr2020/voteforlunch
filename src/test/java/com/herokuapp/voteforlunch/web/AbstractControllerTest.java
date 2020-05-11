@@ -146,7 +146,7 @@ abstract public class AbstractControllerTest {
 
     // INVALID URL calls
 
-    protected void getInvalidId(String url) throws Exception {
+    protected void getInvalidUrlParameter(String url) throws Exception {
         perform(MockMvcRequestBuilders.get(url)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isUnprocessableEntity())
@@ -154,7 +154,7 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    protected <T> void updateInvalidId(String url, T entity) throws Exception {
+    protected <T> void updateInvalidUrlParameter(String url, T entity) throws Exception {
         perform(MockMvcRequestBuilders.put(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(entity))
@@ -164,7 +164,7 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    protected void deleteInvalidId(String url) throws Exception {
+    protected void deleteInvalidUrlParameter(String url) throws Exception {
         perform(MockMvcRequestBuilders.delete(url)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isUnprocessableEntity())
@@ -266,6 +266,16 @@ abstract public class AbstractControllerTest {
 
     protected void getNotFound(String url) throws Exception {
         perform(MockMvcRequestBuilders.get(url)
+                .with(userHttpBasic(ADMIN_INGA)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(DATA_NOT_FOUND))
+                .andDo(print());
+    }
+
+    protected <T> void createNotFound(String url, T entity) throws Exception {
+        perform(MockMvcRequestBuilders.post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(entity))
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(errorType(DATA_NOT_FOUND))

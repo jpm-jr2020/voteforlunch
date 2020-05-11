@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class RestaurantRestController {
 
 //    @CacheEvict(value = "restaurants", allEntries = true)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createWithLocation(@Validated @RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         log.info("restaurants - create {}", restaurant);
         Assert.notNull(restaurant, "restaurant must not be null");
         checkNew(restaurant);
@@ -62,11 +63,11 @@ public class RestaurantRestController {
 //    @CacheEvict(value = "restaurants", allEntries = true)
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@Validated @RequestBody Restaurant restaurant, @PathVariable long id) {
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable long id) {
         log.info("restaurants - update {} with id={}", restaurant, id);
         Assert.notNull(restaurant, "restaurant must not be null");
-        checkNotFoundWithArg(repository.existsById(id), ENTITY_NAME, id);
         assureIdConsistent(restaurant, id);
+        checkNotFoundWithArg(repository.existsById(id), ENTITY_NAME, id);
         repository.save(restaurant);
     }
 
