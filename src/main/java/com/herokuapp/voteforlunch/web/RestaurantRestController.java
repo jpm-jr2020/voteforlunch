@@ -32,7 +32,7 @@ public class RestaurantRestController {
     @Autowired
     private RestaurantRepository repository;
 
-    @Cacheable("restaurants")
+//    @Cacheable("restaurants")
     @GetMapping
     public List<Restaurant> getAll() {
         log.info("restaurants - getAll");
@@ -45,7 +45,7 @@ public class RestaurantRestController {
         return checkNotFoundWithArg(repository.get(id), ENTITY_NAME, id);
     }
 
-    @CacheEvict(value = "restaurants", allEntries = true)
+//    @CacheEvict(value = "restaurants", allEntries = true)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@Validated @RequestBody Restaurant restaurant) {
         log.info("restaurants - create {}", restaurant);
@@ -59,17 +59,18 @@ public class RestaurantRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @CacheEvict(value = "restaurants", allEntries = true)
+//    @CacheEvict(value = "restaurants", allEntries = true)
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@Validated @RequestBody Restaurant restaurant, @PathVariable long id) {
         log.info("restaurants - update {} with id={}", restaurant, id);
         Assert.notNull(restaurant, "restaurant must not be null");
+        checkNotFoundWithArg(repository.existsById(id), ENTITY_NAME, id);
         assureIdConsistent(restaurant, id);
         repository.save(restaurant);
     }
 
-    @CacheEvict(value = "restaurants", allEntries = true)
+//    @CacheEvict(value = "restaurants", allEntries = true)
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {

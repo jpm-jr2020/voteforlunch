@@ -17,6 +17,10 @@ public class ValidationUtil {
     private ValidationUtil() {
     }
 
+    public static void checkNotFoundWithArg(boolean found, String entityName, long id) {
+        checkNotFound(found,  entityName + " with id = " + id);
+    }
+
     public static <T> T checkNotFoundWithArg(T object, String entityName, long id) {
         checkNotFound(object != null,  entityName + " with id = " + id);
         return object;
@@ -50,14 +54,14 @@ public class ValidationUtil {
         if (bean.isNew()) {
             bean.setId(id);
         } else if (bean.id() != id) {
-            throw new IllegalRequestDataException(bean + " must be with id =" + id);
+            throw new IllegalRequestDataException(bean + " must be with id = " + id);
         }
     }
 
     public static void assureIdConsistent(AbstractTo bean, long id) {
 //      conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
        if (bean.getId() != id) {
-            throw new IllegalRequestDataException(bean + " must be with id =" + id);
+            throw new IllegalRequestDataException(bean + " must be with id = " + id);
         }
     }
 

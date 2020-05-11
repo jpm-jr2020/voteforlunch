@@ -46,4 +46,10 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     public List<Restaurant> getAllWithMenu(LocalDate date) {
         return crudRepository.getAllWithMenus(date);
     }
+
+    @Override
+    public boolean existsById(long id) {
+        return crudRepository.existsById(id);
+    }
+
 }

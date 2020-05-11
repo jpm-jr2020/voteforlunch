@@ -13,7 +13,7 @@ import java.util.Set;
 public class Restaurant extends AbstractNamedEntity {
     @Column(name = "address", nullable = false)
     @NotBlank
-    @Size(max = 200)
+    @Size(min = 5, max = 200)
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)

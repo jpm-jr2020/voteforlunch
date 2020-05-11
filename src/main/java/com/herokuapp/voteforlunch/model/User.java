@@ -9,6 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Collection;
+import java.util.Date;
+import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
@@ -43,6 +46,10 @@ public class User extends AbstractNamedEntity {
         this.password = password;
         this.enabled = enabled;
         this.roles = roles;
+    }
+
+    public User(Long id, String name, String email, String password, Boolean enabled, Role role, Role... roles) {
+        this(id, name, email, password, true, EnumSet.of(role, roles));
     }
 
     public String getEmail() {

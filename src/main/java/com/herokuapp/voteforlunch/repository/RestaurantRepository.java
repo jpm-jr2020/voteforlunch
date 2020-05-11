@@ -25,4 +25,6 @@ public interface RestaurantRepository {
 
     // 1.2. Список всех ресторанов и их меню на сегодня
     List<Restaurant> getAllWithMenu(LocalDate date);
+
+    boolean existsById(long id);
 }
