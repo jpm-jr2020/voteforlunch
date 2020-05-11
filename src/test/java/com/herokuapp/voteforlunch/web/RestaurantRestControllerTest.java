@@ -1,7 +1,6 @@
 package com.herokuapp.voteforlunch.web;
 
 import com.herokuapp.voteforlunch.model.Restaurant;
-import com.herokuapp.voteforlunch.repository.RestaurantRepository;
 import com.herokuapp.voteforlunch.service.RestaurantService;
 import com.herokuapp.voteforlunch.util.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
