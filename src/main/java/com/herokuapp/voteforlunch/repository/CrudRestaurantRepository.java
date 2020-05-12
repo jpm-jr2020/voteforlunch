@@ -21,11 +21,11 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Long
 
     //    https://stackoverflow.com/a/46013654/548473
     @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.dishes dishes where r.id=?1 and dishes.date=?2")
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.dishes dishes WHERE r.id=?1 and dishes.date=?2 ORDER BY r.name")
     Restaurant getWithMenus(long id, LocalDate date);
 
     //    https://stackoverflow.com/a/46013654/548473
     @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.dishes dishes where dishes.date=?1")
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.dishes dishes WHERE dishes.date=?1 ORDER BY r.name")
     List<Restaurant> getAllWithMenus(LocalDate date);
 }

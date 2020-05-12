@@ -4,6 +4,7 @@ import com.herokuapp.voteforlunch.model.Restaurant;
 import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.repository.RestaurantRepository;
 import com.herokuapp.voteforlunch.repository.VoteRepository;
+import com.herokuapp.voteforlunch.service.RestaurantService;
 import com.herokuapp.voteforlunch.to.RestaurantTo;
 import com.herokuapp.voteforlunch.util.DateTimeUtil;
 import org.slf4j.Logger;
@@ -31,23 +32,16 @@ public class TodayMenuRestController {
     private static final String ENTITY_NAME = "restaurant";
 
     @Autowired
-    private RestaurantRepository repository;
+    private RestaurantService service;
 
-    @Autowired
-    private VoteRepository voteRepository;
-
-    @Cacheable("restaurants")
+//    @Cacheable("restaurants")
     @GetMapping
     public List<RestaurantTo> getAll() {
         long userId = SecurityUtil.authUserId();
 //        LocalDate today = LocalDate.now();
         LocalDate today = DateTimeUtil.TODAY;
         log.info("today {} menus - getAll", today);
-        List<Restaurant> restaurants = repository.getAllWithMenu(today);
-        List<Vote> votes = voteRepository.getBetween(userId, dateToStartOfDay(today), dateToStartOfNextDay(today));
-        List<RestaurantTo> restaurantTos = new ArrayList<>();
-        restaurants.forEach(restaurant -> restaurantTos.add(new RestaurantTo(restaurant, votes.isEmpty() ? false : votes.get(0).getRestaurant().equals(restaurant))));
-        return restaurantTos;
+        return service.getAllWithMenu(userId, today);
     }
 
     @GetMapping(value = "/{id}")
@@ -56,8 +50,6 @@ public class TodayMenuRestController {
 //        LocalDate today = LocalDate.now();
         LocalDate today = DateTimeUtil.TODAY;
         log.info("today {} menus - get by restaurant {}", today, id);
-        Restaurant restaurant = checkNotFoundWithArg(repository.getWithMenu(id, today), ENTITY_NAME, id);
-        List<Vote> votes = voteRepository.getBetween(userId, dateToStartOfDay(today), dateToStartOfNextDay(today));
-        return new RestaurantTo(restaurant, votes.isEmpty() ? false : votes.get(0).getRestaurant().equals(restaurant));
+        return service.getWithMenu(userId, id, today);
     }
 }

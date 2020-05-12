@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,7 +21,7 @@ public class Restaurant extends AbstractNamedEntity {
     @OrderBy("date DESC")
     @JsonManagedReference
     @JsonIgnore
-    private Set<Dish> dishes;
+    private List<Dish> dishes;
 
     public Restaurant() {
     }
@@ -38,11 +39,11 @@ public class Restaurant extends AbstractNamedEntity {
         return address;
     }
 
-    public Set<Dish> getDishes() {
+    public List<Dish> getDishes() {
         return dishes;
     }
 
-    public void setDishes(Set<Dish> dishes) {
+    public void setDishes(List<Dish> dishes) {
         this.dishes = dishes;
     }
 }

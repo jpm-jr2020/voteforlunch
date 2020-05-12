@@ -37,10 +37,8 @@ public class DishTo extends AbstractTo /*implements Comparable<DishTo>*/ {
 
     @Override
     public String toString() {
-        return "DishTo{" +
-                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", price=" + price +
-                '}';
+        return super.toString() +
+                ", '" + name + '\'' +
+                " за " + price;
     }
 }
