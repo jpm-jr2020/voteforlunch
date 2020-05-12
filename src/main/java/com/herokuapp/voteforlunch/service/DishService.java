@@ -2,8 +2,8 @@ package com.herokuapp.voteforlunch.service;
 
 import com.herokuapp.voteforlunch.model.Dish;
 import com.herokuapp.voteforlunch.model.Restaurant;
-import com.herokuapp.voteforlunch.repository.DishRepository;
-import com.herokuapp.voteforlunch.repository.RestaurantRepository;
+import com.herokuapp.voteforlunch.repository.dish.DishRepository;
+import com.herokuapp.voteforlunch.repository.restaurant.RestaurantRepository;
 import com.herokuapp.voteforlunch.to.DishTo;
 import com.herokuapp.voteforlunch.to.MenuTo;
 import org.springframework.stereotype.Service;

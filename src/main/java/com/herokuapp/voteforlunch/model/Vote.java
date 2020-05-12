@@ -1,6 +1,8 @@
 package com.herokuapp.voteforlunch.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.herokuapp.voteforlunch.util.DateTimeUtil;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -8,7 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,11 +32,17 @@ public class Vote extends AbstractEntity {
     private Restaurant restaurant;
 
     public Vote() {
+//        this.dateTime = LocalDateTime.of(2012,12,12,12,12);
     }
 
-    public Vote(Long id, LocalDateTime dateTime) {
+    @JsonCreator
+    public Vote(@JsonProperty("id") Long id, @JsonProperty("dateTime") LocalDateTime dateTime,
+                @JsonProperty("userId") long userId, @JsonProperty("restaurant") Restaurant restaurant) {
         super(id);
+//        this.dateTime = LocalDateTime.of(2011,11,11,11,11);
         this.dateTime = dateTime;
+        this.userId = userId;
+        this.restaurant = restaurant;
     }
 
     public LocalDateTime getDateTime() {
@@ -44,6 +51,7 @@ public class Vote extends AbstractEntity {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+//        this.dateTime = LocalDateTime.of(2010,10,10,10,10);
     }
 
     public Restaurant getRestaurant() {
@@ -60,5 +68,13 @@ public class Vote extends AbstractEntity {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                " пользователь " + userId +
+                " в " + dateTime +
+                " голосовал за ресторан " + restaurant;
     }
 }

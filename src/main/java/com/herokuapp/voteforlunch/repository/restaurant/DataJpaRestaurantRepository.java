@@ -1,4 +1,4 @@
-package com.herokuapp.voteforlunch.repository;
+package com.herokuapp.voteforlunch.repository.restaurant;
 
 import com.herokuapp.voteforlunch.model.Restaurant;
 import org.springframework.data.domain.Sort;

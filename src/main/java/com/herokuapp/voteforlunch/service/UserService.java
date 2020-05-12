@@ -2,9 +2,7 @@ package com.herokuapp.voteforlunch.service;
 
 import com.herokuapp.voteforlunch.AuthorizedUser;
 import com.herokuapp.voteforlunch.model.User;
-import com.herokuapp.voteforlunch.repository.UserRepository;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+import com.herokuapp.voteforlunch.repository.user.UserRepository;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetailsService;

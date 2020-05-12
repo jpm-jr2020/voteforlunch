@@ -2,15 +2,14 @@ package com.herokuapp.voteforlunch.service;
 
 import com.herokuapp.voteforlunch.model.Restaurant;
 import com.herokuapp.voteforlunch.model.Vote;
-import com.herokuapp.voteforlunch.repository.RestaurantRepository;
-import com.herokuapp.voteforlunch.repository.VoteRepository;
+import com.herokuapp.voteforlunch.repository.restaurant.RestaurantRepository;
+import com.herokuapp.voteforlunch.repository.vote.VoteRepository;
 import com.herokuapp.voteforlunch.to.RestaurantTo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,8 +62,8 @@ public class RestaurantService {
 
     public List<RestaurantTo> getAllWithMenu(long userId, LocalDate today) {
         List<Restaurant> restaurants = restaurantRepository.getAllWithMenu(today);
-        List<Vote> votes = voteRepository.getBetween(userId, dateToStartOfDay(today), dateToStartOfNextDay(today));
-        Restaurant votedRestaurant = votes.isEmpty() ? null : votes.get(0).getRestaurant();
+        Vote vote = voteRepository.get(userId, today);
+        Restaurant votedRestaurant = vote == null ? null : vote.getRestaurant();
 
         return restaurants.stream()
                 .map(restaurant -> new RestaurantTo(restaurant, restaurant.equals(votedRestaurant)))
@@ -73,8 +72,8 @@ public class RestaurantService {
 
     public RestaurantTo getWithMenu(long userId, long restaurantId, LocalDate today) {
         Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.getWithMenu(restaurantId, today), ENTITY_NAME, restaurantId);
-        List<Vote> votes = voteRepository.getBetween(userId, dateToStartOfDay(today), dateToStartOfNextDay(today));
-        Restaurant votedRestaurant = votes.isEmpty() ? null : votes.get(0).getRestaurant();
+        Vote vote = voteRepository.get(userId, today);
+        Restaurant votedRestaurant = vote == null ? null : vote.getRestaurant();
 
         return new RestaurantTo(restaurant, restaurant.equals(votedRestaurant));
     }

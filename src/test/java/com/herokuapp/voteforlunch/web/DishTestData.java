@@ -6,7 +6,7 @@ import com.herokuapp.voteforlunch.to.MenuTo;
 import static com.herokuapp.voteforlunch.model.AbstractEntity.START_SEQ;
 
 public class DishTestData {
-    public static TestMatcher<DishTo> DISH_MATCHER = TestMatcher.usingFieldsComparator(DishTo.class);
+//    public static TestMatcher<DishTo> DISH_MATCHER = TestMatcher.usingFieldsComparator(DishTo.class);
     public static TestMatcher<DishTo> DISH_TO_MATCHER = TestMatcher.usingFieldsComparator(DishTo.class);
 
     public static final long DISH_HI_YESTERDAY1_ID = START_SEQ + 37;

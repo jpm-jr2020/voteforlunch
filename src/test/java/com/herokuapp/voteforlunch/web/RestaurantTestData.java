@@ -29,11 +29,11 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT_DD = new Restaurant(RESTAURANT_DD_ID, "Джонджоли", "Москва, Авиамоторная, 34/2, стр. 1");
     public static final Restaurant RESTAURANT_HI = new Restaurant(RESTAURANT_HI_ID, "Хинкальная", "Москва, Павелецкая, 13к4");
 
-    private static final Restaurant RESTAURANT_TO_MD = new Restaurant(RESTAURANT_MD_ID, "МакДональдс", "Москва, Тверская, 22");
-    private static final Restaurant RESTAURANT_TO_BK = new Restaurant(RESTAURANT_BK_ID, "Бургер Кинг", "Москва, Новый Арбат, 10");
-    private static final Restaurant RESTAURANT_TO_PR = new Restaurant(RESTAURANT_PR_ID, "Прага", "Москва, Арбат, 1");
-    private static final Restaurant RESTAURANT_TO_DD = new Restaurant(RESTAURANT_DD_ID, "Джонджоли", "Москва, Авиамоторная, 34/2, стр. 1");
-    private static final Restaurant RESTAURANT_TO_HI = new Restaurant(RESTAURANT_HI_ID, "Хинкальная", "Москва, Павелецкая, 13к4");
+    public static final Restaurant RESTAURANT_TO_MD = new Restaurant(RESTAURANT_MD_ID, "МакДональдс", "Москва, Тверская, 22");
+    public static final Restaurant RESTAURANT_TO_BK = new Restaurant(RESTAURANT_BK_ID, "Бургер Кинг", "Москва, Новый Арбат, 10");
+    public static final Restaurant RESTAURANT_TO_PR = new Restaurant(RESTAURANT_PR_ID, "Прага", "Москва, Арбат, 1");
+    public static final Restaurant RESTAURANT_TO_DD = new Restaurant(RESTAURANT_DD_ID, "Джонджоли", "Москва, Авиамоторная, 34/2, стр. 1");
+    public static final Restaurant RESTAURANT_TO_HI = new Restaurant(RESTAURANT_HI_ID, "Хинкальная", "Москва, Павелецкая, 13к4");
 
     private static final List<Dish> DISHES_MD = new ArrayList<>();
     private static final List<Dish> DISHES_BK = new ArrayList<>();

@@ -1,7 +1,7 @@
-package com.herokuapp.voteforlunch.repository;
+package com.herokuapp.voteforlunch.repository.dish;
 
 import com.herokuapp.voteforlunch.model.Dish;
-import com.herokuapp.voteforlunch.model.Restaurant;
+import com.herokuapp.voteforlunch.repository.restaurant.CrudRestaurantRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

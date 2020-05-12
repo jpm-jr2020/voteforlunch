@@ -20,8 +20,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import javax.annotation.PostConstruct;
 
 //import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static com.herokuapp.voteforlunch.util.exception.ErrorType.DATA_NOT_FOUND;
-import static com.herokuapp.voteforlunch.util.exception.ErrorType.VALIDATION_ERROR;
+import static com.herokuapp.voteforlunch.util.exception.ErrorType.*;
 import static com.herokuapp.voteforlunch.web.RestaurantTestData.RESTAURANT_BK_ID;
 import static com.herokuapp.voteforlunch.web.RestaurantTestData.RESTAURANT_PR_ID;
 import static com.herokuapp.voteforlunch.web.TestUtil.userHttpBasic;
@@ -91,6 +90,13 @@ abstract public class AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(entity))
+                .with(userHttpBasic(ALIEN)))
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
+
+    protected <T> void postByUnAuth(String url) throws Exception {
+        perform(MockMvcRequestBuilders.post(url)
                 .with(userHttpBasic(ALIEN)))
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
@@ -178,6 +184,14 @@ abstract public class AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(entity))
+                .with(userHttpBasic(ADMIN_INGA)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(VALIDATION_ERROR))
+                .andDo(print());
+    }
+
+    protected <T> void postInvalidField(String url) throws Exception {
+        perform(MockMvcRequestBuilders.post(url)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(errorType(VALIDATION_ERROR))
@@ -282,6 +296,14 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
+    protected <T> void postNotFound(String url) throws Exception {
+        perform(MockMvcRequestBuilders.post(url)
+                .with(userHttpBasic(ADMIN_INGA)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(DATA_NOT_FOUND))
+                .andDo(print());
+    }
+
     protected <T> void updateNotFound(String url, T entity) throws Exception {
         perform(MockMvcRequestBuilders.put(url)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -297,6 +319,16 @@ abstract public class AbstractControllerTest {
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(errorType(DATA_NOT_FOUND))
+                .andDo(print());
+    }
+
+    // BAD REQUEST calls
+
+    protected void postBadRequest(String url) throws Exception {
+        perform(MockMvcRequestBuilders.post(url)
+                .with(userHttpBasic(ADMIN_INGA)))
+                .andExpect(status().isBadRequest())
+//                .andExpect(errorType(WRONG_REQUEST))
                 .andDo(print());
     }
 }
