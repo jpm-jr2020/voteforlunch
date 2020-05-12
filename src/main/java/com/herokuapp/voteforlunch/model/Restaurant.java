@@ -2,13 +2,15 @@ package com.herokuapp.voteforlunch.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import org.hibernate.annotations.Cache;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Set;
 
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity {
@@ -17,7 +19,7 @@ public class Restaurant extends AbstractNamedEntity {
     @Size(min = 5, max = 200)
     private String address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("date DESC")
     @JsonManagedReference
     @JsonIgnore

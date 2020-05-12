@@ -1,14 +1,12 @@
-package com.herokuapp.voteforlunch.web;
+package com.herokuapp.voteforlunch.web.controller;
 
-import com.herokuapp.voteforlunch.model.Restaurant;
 import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.service.VoteService;
 import com.herokuapp.voteforlunch.to.VoteTo;
 import com.herokuapp.voteforlunch.util.DateTimeUtil;
+import com.herokuapp.voteforlunch.web.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -21,10 +19,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import static com.herokuapp.voteforlunch.util.DateTimeUtil.*;
-import static com.herokuapp.voteforlunch.util.ValidationUtil.checkMenuPresent;
-import static com.herokuapp.voteforlunch.util.ValidationUtil.checkNotFoundWithArg;
-
 @RestController
 @RequestMapping(value = VoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteRestController {
@@ -32,8 +26,11 @@ public class VoteRestController {
 
     static final String REST_URL = "/votes";
 
-    @Autowired
-    private VoteService service;
+    private final VoteService service;
+
+    public VoteRestController(VoteService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public List<Vote> getAll() {
@@ -58,7 +55,6 @@ public class VoteRestController {
     }
 
     @PostMapping
-//    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public ResponseEntity<VoteTo> vote(@RequestParam long restaurantId) {
         long userId = SecurityUtil.authUserId();
 //        LocalDate date = LocalDate.now();

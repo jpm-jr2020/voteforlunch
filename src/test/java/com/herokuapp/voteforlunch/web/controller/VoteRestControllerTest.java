@@ -1,12 +1,10 @@
-package com.herokuapp.voteforlunch.web;
+package com.herokuapp.voteforlunch.web.controller;
 
-import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.service.DishService;
-import com.herokuapp.voteforlunch.service.RestaurantService;
 import com.herokuapp.voteforlunch.service.VoteService;
-import com.herokuapp.voteforlunch.to.DishTo;
 import com.herokuapp.voteforlunch.to.VoteTo;
 import com.herokuapp.voteforlunch.util.DateTimeUtil;
+import com.herokuapp.voteforlunch.web.JsonUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

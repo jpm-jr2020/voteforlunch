@@ -5,6 +5,8 @@ import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.repository.restaurant.RestaurantRepository;
 import com.herokuapp.voteforlunch.repository.vote.VoteRepository;
 import com.herokuapp.voteforlunch.to.RestaurantTo;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -13,8 +15,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.herokuapp.voteforlunch.util.DateTimeUtil.dateToStartOfDay;
-import static com.herokuapp.voteforlunch.util.DateTimeUtil.dateToStartOfNextDay;
 import static com.herokuapp.voteforlunch.util.ValidationUtil.*;
 
 @Service
@@ -30,23 +30,24 @@ public class RestaurantService {
         this.voteRepository = voteRepository;
     }
 
-//    @Cacheable("restaurants")
+    @Cacheable("restaurants")
     public List<Restaurant> getAll() {
         return restaurantRepository.getAll();
     }
 
+    @Cacheable("restaurants")
     public Restaurant get(long id) {
         return checkNotFoundWithArg(restaurantRepository.get(id), ENTITY_NAME, id);
     }
 
-//    @CacheEvict(value = "restaurants", allEntries = true)
+    @CacheEvict(value = {"restaurants", "menus"}, allEntries = true)
     public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         checkNew(restaurant);
         return restaurantRepository.save(restaurant);
     }
 
-//    @CacheEvict(value = "restaurants", allEntries = true)
+    @CacheEvict(value = {"restaurants", "menus"}, allEntries = true)
     @Transactional
     public void update(Restaurant restaurant, long id) {
         Assert.notNull(restaurant, "restaurant must not be null");
@@ -55,7 +56,7 @@ public class RestaurantService {
         restaurantRepository.save(restaurant);
     }
 
-//    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = {"restaurants", "menus"}, allEntries = true)
     public void delete(long id) {
         checkNotFoundWithArg(restaurantRepository.delete(id), ENTITY_NAME, id);
     }

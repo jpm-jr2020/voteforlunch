@@ -3,9 +3,6 @@ package com.herokuapp.voteforlunch.web;
 import com.herokuapp.voteforlunch.model.Role;
 import com.herokuapp.voteforlunch.model.User;
 
-import java.util.Collections;
-import java.util.Date;
-
 import static com.herokuapp.voteforlunch.model.AbstractEntity.START_SEQ;
 
 public class UserTestData {

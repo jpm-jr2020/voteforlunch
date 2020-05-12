@@ -1,8 +1,11 @@
-package com.herokuapp.voteforlunch.web;
+package com.herokuapp.voteforlunch.web.controller;
 
 import com.herokuapp.voteforlunch.model.Restaurant;
 import com.herokuapp.voteforlunch.service.RestaurantService;
 import com.herokuapp.voteforlunch.util.exception.NotFoundException;
+import com.herokuapp.voteforlunch.web.ExceptionInfoHandler;
+import com.herokuapp.voteforlunch.web.JsonUtil;
+import com.herokuapp.voteforlunch.web.RestaurantTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -258,7 +261,6 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent())
                 .andDo(print());
         assertThrows(NotFoundException.class, () -> service.get(RESTAURANT_BK_ID));
-//        assertNull(service.get(RESTAURANT_BK_ID));
     }
 
     @Test

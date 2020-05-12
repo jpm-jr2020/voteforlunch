@@ -1,9 +1,7 @@
-package com.herokuapp.voteforlunch.web;
+package com.herokuapp.voteforlunch.web.controller;
 
-import com.herokuapp.voteforlunch.model.Restaurant;
-import org.junit.jupiter.api.Test;
+import com.herokuapp.voteforlunch.web.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,10 +17,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.annotation.PostConstruct;
 
-//import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static com.herokuapp.voteforlunch.util.exception.ErrorType.*;
-import static com.herokuapp.voteforlunch.web.RestaurantTestData.RESTAURANT_BK_ID;
-import static com.herokuapp.voteforlunch.web.RestaurantTestData.RESTAURANT_PR_ID;
 import static com.herokuapp.voteforlunch.web.TestUtil.userHttpBasic;
 import static com.herokuapp.voteforlunch.web.UserTestData.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -37,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 @Transactional
 abstract public class AbstractControllerTest {
-//    private static final Locale RU_LOCALE = new Locale("ru");
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
 
     static {
@@ -62,10 +56,6 @@ abstract public class AbstractControllerTest {
     public ResultActions perform(MockHttpServletRequestBuilder builder) throws Exception {
         return mockMvc.perform(builder);
     }
-
-//    private String getMessage(String code) {
-//        return messageSourceAccessor.getMessage(code, RU_LOCALE);
-//    }
 
     public ResultMatcher errorType(ErrorType type) {
         return jsonPath("$.type").value(type.name());
@@ -328,7 +318,6 @@ abstract public class AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(url)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isBadRequest())
-//                .andExpect(errorType(WRONG_REQUEST))
                 .andDo(print());
     }
 }

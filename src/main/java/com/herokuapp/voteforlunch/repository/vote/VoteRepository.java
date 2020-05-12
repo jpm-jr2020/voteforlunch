@@ -3,7 +3,6 @@ package com.herokuapp.voteforlunch.repository.vote;
 import com.herokuapp.voteforlunch.model.Vote;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface VoteRepository {

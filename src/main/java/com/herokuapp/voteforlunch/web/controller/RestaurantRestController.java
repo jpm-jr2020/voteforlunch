@@ -1,10 +1,9 @@
-package com.herokuapp.voteforlunch.web;
+package com.herokuapp.voteforlunch.web.controller;
 
 import com.herokuapp.voteforlunch.model.Restaurant;
 import com.herokuapp.voteforlunch.service.RestaurantService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,11 @@ public class RestaurantRestController {
 
     static final String REST_URL = "/admin/restaurants";
 
-    @Autowired
-    private RestaurantService service;
+    private final RestaurantService service;
+
+    public RestaurantRestController(RestaurantService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public List<Restaurant> getAll() {
@@ -55,7 +57,6 @@ public class RestaurantRestController {
         service.update(restaurant, id);
     }
 
-//    @CacheEvict(value = "restaurants", allEntries = true)
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long id) {

@@ -1,6 +1,5 @@
 package com.herokuapp.voteforlunch.util;
 
-import com.herokuapp.voteforlunch.util.exception.IllegalRequestDataException;
 import com.herokuapp.voteforlunch.util.exception.TimeViolationException;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
@@ -10,7 +9,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.concurrent.TimeoutException;
 
 public class DateTimeUtil {
     public static final LocalDate YESTERDAY = LocalDate.of(2020, 4, 29);

@@ -25,7 +25,5 @@ public interface DishRepository {
 
     // 2.11. Удалить блюдо из меню конкретного ресторана на дату
     boolean delete(long id, long restaurantId, LocalDate date);
-
-    boolean existsById(long id);
 }
 

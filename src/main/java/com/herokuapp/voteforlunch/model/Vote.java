@@ -32,14 +32,12 @@ public class Vote extends AbstractEntity {
     private Restaurant restaurant;
 
     public Vote() {
-//        this.dateTime = LocalDateTime.of(2012,12,12,12,12);
     }
 
     @JsonCreator
     public Vote(@JsonProperty("id") Long id, @JsonProperty("dateTime") LocalDateTime dateTime,
                 @JsonProperty("userId") long userId, @JsonProperty("restaurant") Restaurant restaurant) {
         super(id);
-//        this.dateTime = LocalDateTime.of(2011,11,11,11,11);
         this.dateTime = dateTime;
         this.userId = userId;
         this.restaurant = restaurant;
@@ -51,7 +49,6 @@ public class Vote extends AbstractEntity {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
-//        this.dateTime = LocalDateTime.of(2010,10,10,10,10);
     }
 
     public Restaurant getRestaurant() {

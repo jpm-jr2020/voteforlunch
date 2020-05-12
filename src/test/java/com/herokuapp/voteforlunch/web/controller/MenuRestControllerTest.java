@@ -1,7 +1,7 @@
-package com.herokuapp.voteforlunch.web;
+package com.herokuapp.voteforlunch.web.controller;
 
 import com.herokuapp.voteforlunch.service.DishService;
-import com.herokuapp.voteforlunch.util.DateTimeUtil;
+import com.herokuapp.voteforlunch.web.MenuTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,9 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MenuRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = MenuRestController.REST_URL + '/';
-
-    @Autowired
-    private DishService service;
 
     @Test
     void getAll() throws Exception {

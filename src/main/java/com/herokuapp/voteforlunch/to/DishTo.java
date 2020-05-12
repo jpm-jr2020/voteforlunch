@@ -6,7 +6,7 @@ import com.herokuapp.voteforlunch.model.Dish;
 
 import javax.validation.constraints.PositiveOrZero;
 
-public class DishTo extends AbstractTo /*implements Comparable<DishTo>*/ {
+public class DishTo extends AbstractTo {
     private Integer price;
 
     @JsonCreator()
@@ -14,11 +14,6 @@ public class DishTo extends AbstractTo /*implements Comparable<DishTo>*/ {
         super(id, name);
         this.price = price;
     }
-
-//    @JsonCreator
-//    public DishTo(@JsonProperty("name") String name, @JsonProperty("price") Integer price) {
-//        this(null, name, price);
-//    }
 
     public DishTo(Dish dish) {
         super(dish.getId(), dish.getName());
@@ -29,11 +24,6 @@ public class DishTo extends AbstractTo /*implements Comparable<DishTo>*/ {
     public Integer getPrice() {
         return price;
     }
-
-//    @Override
-//    public int compareTo(DishTo o) {
-//        return name.compareTo(o.name);
-//    }
 
     @Override
     public String toString() {

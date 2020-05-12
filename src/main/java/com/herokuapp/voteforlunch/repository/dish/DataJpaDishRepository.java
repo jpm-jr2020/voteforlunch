@@ -60,9 +60,4 @@ public class DataJpaDishRepository implements DishRepository {
     public boolean delete(long id, long restaurantId, LocalDate date) {
         return crudDishRepository.delete(id, restaurantId, date) != 0;
     }
-
-    @Override
-    public boolean existsById(long id) {
-        return crudDishRepository.existsById(id);
-    }
 }

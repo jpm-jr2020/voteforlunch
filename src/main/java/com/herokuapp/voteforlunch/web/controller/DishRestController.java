@@ -1,11 +1,10 @@
-package com.herokuapp.voteforlunch.web;
+package com.herokuapp.voteforlunch.web.controller;
 
 import com.herokuapp.voteforlunch.model.Dish;
 import com.herokuapp.voteforlunch.service.DishService;
 import com.herokuapp.voteforlunch.to.DishTo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +22,11 @@ public class DishRestController {
 
     static final String REST_URL = "/admin/restaurants/{restaurantId}/menu/{date}/dishes";
 
-    @Autowired
-    private DishService dishService;
+    private final DishService dishService;
+
+    public DishRestController(DishService dishService) {
+        this.dishService = dishService;
+    }
 
     @GetMapping(value = "/{id}")
     public DishTo get(@PathVariable long id, @PathVariable LocalDate date, @PathVariable long restaurantId) {

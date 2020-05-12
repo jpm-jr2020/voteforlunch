@@ -1,10 +1,9 @@
-package com.herokuapp.voteforlunch.web;
+package com.herokuapp.voteforlunch.web.controller;
 
 import com.herokuapp.voteforlunch.service.DishService;
 import com.herokuapp.voteforlunch.to.MenuTo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +17,11 @@ public class MenuRestController {
 
     static final String REST_URL = "/admin/restaurants/{restaurantId}/menu";
 
-    @Autowired
-    private DishService dishService;
+    private final DishService dishService;
+
+    public MenuRestController(DishService dishService) {
+        this.dishService = dishService;
+    }
 
     @GetMapping
     public MenuTo getAll(@PathVariable long restaurantId) {

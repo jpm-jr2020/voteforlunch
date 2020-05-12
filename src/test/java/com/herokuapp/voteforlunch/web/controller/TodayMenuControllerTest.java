@@ -1,8 +1,6 @@
-package com.herokuapp.voteforlunch.web;
+package com.herokuapp.voteforlunch.web.controller;
 
-import com.herokuapp.voteforlunch.service.RestaurantService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -17,9 +15,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TodayMenuControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = TodayMenuRestController.REST_URL + '/';
-
-    @Autowired
-    private RestaurantService service;
 
     // GET ALL tests
 

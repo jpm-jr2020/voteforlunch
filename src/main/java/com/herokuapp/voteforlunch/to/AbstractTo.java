@@ -1,6 +1,5 @@
 package com.herokuapp.voteforlunch.to;
 
-import com.herokuapp.voteforlunch.model.AbstractEntity;
 import org.hibernate.Hibernate;
 
 import javax.persistence.Id;
