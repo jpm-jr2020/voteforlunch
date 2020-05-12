@@ -45,15 +45,16 @@ public class RestaurantTestData {
         DISHES_BK.add(new Dish(START_SEQ + 20L, "Картошка", 7000, TODAY));
         DISHES_BK.add(new Dish(START_SEQ + 21L, "Пиво", 9000, TODAY));
 
-        DISHES_PR.add(new Dish(START_SEQ + 27L, "Салат", 40000, TODAY));
         DISHES_PR.add(new Dish(START_SEQ + 28L, "Котлета", 75000, TODAY));
+        DISHES_PR.add(new Dish(START_SEQ + 27L, "Салат", 40000, TODAY));
 
-        DISHES_DD.add(new Dish(START_SEQ + 33L, "Чай", 9000, TODAY));
         DISHES_DD.add(new Dish(START_SEQ + 34L, "Аджапсандал", 17000, TODAY));
+        DISHES_DD.add(new Dish(START_SEQ + 33L, "Чай", 9000, TODAY));
+
 
         DISHES_HI.add(new Dish(START_SEQ + 39L, "Компот", 6000, TODAY));
-        DISHES_HI.add(new Dish(START_SEQ + 40L, "Хачапури", 35000, TODAY));
         DISHES_HI.add(new Dish(START_SEQ + 41L, "Сациви", 12000, TODAY));
+        DISHES_HI.add(new Dish(START_SEQ + 40L, "Хачапури", 35000, TODAY));
     }
 
     static {

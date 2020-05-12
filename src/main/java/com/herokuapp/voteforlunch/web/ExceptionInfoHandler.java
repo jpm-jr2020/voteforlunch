@@ -37,8 +37,8 @@ public class ExceptionInfoHandler {
 
 
     private static final Map<String, String> CONSTRAINS_MAP = Map.of(
-            "restaurant_name_address_idx", EXCEPTION_DUPLICATE_RESTAURANT,
-            "dish_date_restaurant_idx", EXCEPTION_DUPLICATE_DISH);
+            "restaurants_name_address_unique", EXCEPTION_DUPLICATE_RESTAURANT,
+            "dishes_restaurant_date_name_idx", EXCEPTION_DUPLICATE_DISH);
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
     @ExceptionHandler({IllegalRequestDataException.class, MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class})
