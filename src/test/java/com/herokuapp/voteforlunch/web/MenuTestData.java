@@ -16,7 +16,6 @@ public class MenuTestData {
     private static final Dish DISH__HI_YESTERDAY2 = new Dish(DISH_HI_YESTERDAY2, DateTimeUtil.YESTERDAY);
     private static final Dish DISH__HI_TODAY1 = new Dish(DISH_HI_TODAY1, DateTimeUtil.TODAY);
     private static final Dish DISH__HI_TODAY2 = new Dish(DISH_HI_TODAY2, DateTimeUtil.TODAY);
-    private static final Dish DISH__HI_TODAY3 = new Dish(DISH_HI_TODAY3, DateTimeUtil.TODAY);
     private static final Dish DISH__HI_TOMORROW1 = new Dish(DISH_HI_TOMORROW1, DateTimeUtil.TOMORROW);
     private static final Dish DISH__HI_TOMORROW2 = new Dish(DISH_HI_TOMORROW2, DateTimeUtil.TOMORROW);
 
@@ -26,9 +25,8 @@ public class MenuTestData {
     static {
         DISHES_HI_YESTERDAY.add(DISH__HI_YESTERDAY1);
         DISHES_HI_YESTERDAY.add(DISH__HI_YESTERDAY2);
-        DISHES_HI_TODAY.add(DISH__HI_TODAY1);
-        DISHES_HI_TODAY.add(DISH__HI_TODAY3);
         DISHES_HI_TODAY.add(DISH__HI_TODAY2);
+        DISHES_HI_TODAY.add(DISH__HI_TODAY1);
         DISHES_HI_TOMORROW.add(DISH__HI_TOMORROW1);
         DISHES_HI_TOMORROW.add(DISH__HI_TOMORROW2);
     }

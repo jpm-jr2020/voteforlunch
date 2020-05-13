@@ -85,7 +85,7 @@ class DishRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getOtherRestaurant() throws Exception {
-        String url = composeUrl(RESTAURANT_DD_ID, DateTimeUtil.TOMORROW) + DISH_HI_TOMORROW2_ID;
+        String url = composeUrl(RESTAURANT_PR_ID, DateTimeUtil.TOMORROW) + DISH_HI_TOMORROW2_ID;
         super.getNotFound(url);
     }
 

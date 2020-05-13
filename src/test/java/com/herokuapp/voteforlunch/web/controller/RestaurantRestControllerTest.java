@@ -37,7 +37,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_MATCHER.contentJson(RESTAURANT_BK, RESTAURANT_DD, RESTAURANT_MD, RESTAURANT_PR, RESTAURANT_HI))
+                .andExpect(RESTAURANT_MATCHER.contentJson(RESTAURANT_MD, RESTAURANT_PR, RESTAURANT_HI))
                 .andDo(print());
     }
 
@@ -55,11 +55,11 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_DD_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_PR_ID)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_MATCHER.contentJson(RESTAURANT_DD))
+                .andExpect(RESTAURANT_MATCHER.contentJson(RESTAURANT_PR))
                 .andDo(print());
     }
 
@@ -75,12 +75,12 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getByUser() throws Exception {
-        super.getByUser(REST_URL + RESTAURANT_DD_ID);
+        super.getByUser(REST_URL + RESTAURANT_PR_ID);
     }
 
     @Test
     void getByUnAuth() throws Exception {
-        super.getByUnAuth(REST_URL + RESTAURANT_DD_ID);
+        super.getByUnAuth(REST_URL + RESTAURANT_PR_ID);
     }
 
     // CREATE tests
@@ -239,8 +239,8 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     void updateDuplicated() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
-        updated.setName(RESTAURANT_DD.getName());
-        updated.setAddress(RESTAURANT_DD.getAddress());
+        updated.setName(RESTAURANT_HI.getName());
+        updated.setAddress(RESTAURANT_HI.getAddress());
         super.updateDuplicated(REST_URL + RESTAURANT_PR_ID, updated, ExceptionInfoHandler.EXCEPTION_DUPLICATE_RESTAURANT);
         RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
@@ -256,11 +256,11 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + RESTAURANT_BK_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL + RESTAURANT_PR_ID)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isNoContent())
                 .andDo(print());
-        assertThrows(NotFoundException.class, () -> service.get(RESTAURANT_BK_ID));
+        assertThrows(NotFoundException.class, () -> service.get(RESTAURANT_PR_ID));
     }
 
     @Test
@@ -275,13 +275,13 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteByUser() throws Exception {
-        super.deleteByUser(REST_URL + RESTAURANT_BK_ID);
-        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_BK_ID), RESTAURANT_BK);
+        super.deleteByUser(REST_URL + RESTAURANT_PR_ID);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
     @Test
     void deleteByUnAuth() throws Exception {
-        super.deleteByUnAuth(REST_URL + RESTAURANT_BK_ID);
-        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_BK_ID), RESTAURANT_BK);
+        super.deleteByUnAuth(REST_URL + RESTAURANT_PR_ID);
+        RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 }

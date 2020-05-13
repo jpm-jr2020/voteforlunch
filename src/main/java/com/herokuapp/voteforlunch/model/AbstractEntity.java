@@ -9,6 +9,15 @@ import javax.persistence.*;
 public abstract class AbstractEntity {
     public static final int START_SEQ = 100_000;
 
+    public static final int NUM_OF_USERS = 3;
+    public static final int NUM_OF_RESTAURANTS = 3;
+
+    public static final int NUM_OF_DISHES_1 = 6;
+    public static final int NUM_OF_DISHES_2 = 6;
+    public static final int NUM_OF_DISHES_3 = 6;
+    public static final int NUM_OF_DISHES = NUM_OF_DISHES_1 + NUM_OF_DISHES_2 + NUM_OF_DISHES_3;
+
+
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")

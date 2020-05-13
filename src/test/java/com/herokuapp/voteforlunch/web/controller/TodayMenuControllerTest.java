@@ -24,7 +24,7 @@ class TodayMenuControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_BK, RESTAURANTTO_DD, RESTAURANTTO_MD_VOTED, RESTAURANTTO_PR, RESTAURANTTO_HI))
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_MD, RESTAURANTTO_PR_VOTED, RESTAURANTTO_HI))
                 .andDo(print());
     }
 
@@ -34,7 +34,7 @@ class TodayMenuControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER_PETR)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_BK, RESTAURANTTO_DD_VOTED, RESTAURANTTO_MD, RESTAURANTTO_PR, RESTAURANTTO_HI))
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_MD, RESTAURANTTO_PR, RESTAURANTTO_HI_VOTED))
                 .andDo(print());
     }
 
@@ -47,41 +47,41 @@ class TodayMenuControllerTest extends AbstractControllerTest {
 
     @Test
     void getByAdminVoted() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_MD_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_PR_ID)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_MD_VOTED))
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_PR_VOTED))
                 .andDo(print());
     }
 
     @Test
     void getByAdmin() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_PR_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_HI_ID)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_PR))
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_HI))
                 .andDo(print());
     }
 
     @Test
     void getByUserVoted() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_DD_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_HI_ID)
                 .with(userHttpBasic(USER_PETR)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_DD_VOTED))
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_HI_VOTED))
                 .andDo(print());
     }
 
     @Test
     void getByUser() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_PR_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_MD_ID)
                 .with(userHttpBasic(USER_PETR)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_PR))
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_MD))
                 .andDo(print());
     }
 
