@@ -415,6 +415,14 @@ class DishRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void deleteOtherRestaurant() throws Exception {
+        String url = composeUrl(RESTAURANT_PR_ID, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
+        super.deleteNotFound(url);
+        DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
+        DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
+    }
+
+    @Test
     void deleteInvalidDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, "abc") + DISH_HI_TODAY2_ID;
         super.deleteInvalidUrlParameter(url);
@@ -423,8 +431,16 @@ class DishRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void deleteOtherDate() throws Exception {
+    void deleteDifferentDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TOMORROW) + DISH_HI_TODAY2_ID;
+        super.deleteNotFound(url);
+        DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
+        DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
+    }
+
+    @Test
+    void deleteOtherDate() throws Exception {
+        String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TOMORROW.plus(1, ChronoUnit.DAYS)) + DISH_HI_TODAY2_ID;
         super.deleteNotFound(url);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
