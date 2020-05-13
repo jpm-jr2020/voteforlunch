@@ -1,7 +1,6 @@
 package com.herokuapp.voteforlunch.service;
 
 import com.herokuapp.voteforlunch.model.Restaurant;
-import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.repository.restaurant.RestaurantRepository;
 import com.herokuapp.voteforlunch.repository.vote.VoteRepository;
 import com.herokuapp.voteforlunch.to.RestaurantTo;

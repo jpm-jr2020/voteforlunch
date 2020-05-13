@@ -58,11 +58,11 @@ public class VoteRestController {
     public ResponseEntity<VoteTo> vote(@RequestParam long restaurantId) {
         long userId = SecurityUtil.authUserId();
 //        LocalDate date = LocalDate.now();
-        LocalDate date = DateTimeUtil.TODAY;
+//        LocalDate date = DateTimeUtil.TODAY;
 //        LocalTime time = LocalTime.now();
-        LocalTime time = LocalTime.of(10, 0);
-//        LocalDateTime dateTime = LocalDateTime.now();
-        LocalDateTime dateTime = LocalDateTime.of(date, time);
+//        LocalTime time = LocalTime.of(10, 0);
+        LocalDateTime dateTime = LocalDateTime.now();
+//        LocalDateTime dateTime = LocalDateTime.of(date, time);
         log.info("vote - user {} for restaurant {} at {}", userId, restaurantId, dateTime);
         VoteTo voteTo = service.vote(userId, restaurantId, dateTime);
 

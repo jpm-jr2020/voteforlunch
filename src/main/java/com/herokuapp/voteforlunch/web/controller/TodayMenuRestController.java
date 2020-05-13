@@ -28,8 +28,8 @@ public class TodayMenuRestController {
     @GetMapping
     public List<RestaurantTo> getAll() {
         long userId = SecurityUtil.authUserId();
-//        LocalDate today = LocalDate.now();
-        LocalDate today = DateTimeUtil.TODAY;
+        LocalDate today = LocalDate.now();
+//        LocalDate today = DateTimeUtil.TODAY;
         log.info("today {} menus - getAll", today);
         return service.getAllWithMenu(userId, today);
     }
@@ -37,8 +37,8 @@ public class TodayMenuRestController {
     @GetMapping(value = "/{id}")
     public RestaurantTo getWithMenu(@PathVariable long id) {
         long userId = SecurityUtil.authUserId();
-//        LocalDate today = LocalDate.now();
-        LocalDate today = DateTimeUtil.TODAY;
+        LocalDate today = LocalDate.now();
+//        LocalDate today = DateTimeUtil.TODAY;
         log.info("today {} menus - get by restaurant {}", today, id);
         return service.getWithMenu(userId, id, today);
     }

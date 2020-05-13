@@ -14,6 +14,7 @@ import static com.herokuapp.voteforlunch.web.UserTestData.*;
 public class VoteTestData {
     public static TestMatcher<Vote> VOTE_MATCHER = TestMatcher.usingFieldsComparator(Vote.class, "id", "userId");
     public static TestMatcher<VoteTo> VOTE_TO_MATCHER = TestMatcher.usingFieldsComparator(VoteTo.class);
+    public static TestMatcher<VoteTo> VOTE_TO_MATCHER_NO_DATETIME = TestMatcher.usingFieldsComparator(VoteTo.class, "dateTime");
 
     private static final long START_SEQ_VOTE = START_SEQ + NUM_OF_USERS + NUM_OF_RESTAURANTS + NUM_OF_DISHES;
 

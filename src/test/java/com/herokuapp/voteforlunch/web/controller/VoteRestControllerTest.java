@@ -180,6 +180,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void voteByAdmin() throws Exception {
+        DateTimeUtil.setNoRevoteTime(LocalTime.of(23,59));
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "?restaurantId=" + RESTAURANT_MD_ID)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isCreated())
@@ -189,12 +190,14 @@ class VoteRestControllerTest extends AbstractControllerTest {
         VoteTo voted = JsonUtil.readValue(action.andReturn().getResponse().getContentAsString(), VoteTo.class);
         LocalDate date = voted.getDateTime().toLocalDate();
         VoteTo newVoteTo = REVOTE_TO_TODAY_ADMIN;
-        VOTE_TO_MATCHER.assertMatch(voted, newVoteTo);
-        VOTE_TO_MATCHER.assertMatch(service.getByDate(ADMIN_INGA_ID, date), newVoteTo);
+        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(voted, newVoteTo);
+        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(service.getByDate(ADMIN_INGA_ID, date), newVoteTo);
+        DateTimeUtil.setNoRevoteTime(LocalTime.of(11,0));
     }
 
     @Test
     void voteByUser() throws Exception {
+        DateTimeUtil.setNoRevoteTime(LocalTime.of(23,59));
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "?restaurantId=" + RESTAURANT_PR_ID)
                 .with(userHttpBasic(USER_PETR)))
                 .andExpect(status().isCreated())
@@ -204,8 +207,9 @@ class VoteRestControllerTest extends AbstractControllerTest {
         VoteTo voted = JsonUtil.readValue(action.andReturn().getResponse().getContentAsString(), VoteTo.class);
         LocalDate date = voted.getDateTime().toLocalDate();
         VoteTo newVoteTo = REVOTE_TO_TODAY_PETR;
-        VOTE_TO_MATCHER.assertMatch(voted, newVoteTo);
-        VOTE_TO_MATCHER.assertMatch(service.getByDate(USER_PETR_ID, date), newVoteTo);
+        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(voted, newVoteTo);
+        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(service.getByDate(USER_PETR_ID, date), newVoteTo);
+        DateTimeUtil.setNoRevoteTime(LocalTime.of(11,0));
     }
 
     @Test
