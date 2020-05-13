@@ -34,6 +34,11 @@ public class DataJpaDishRepository implements DishRepository {
     }
 
     @Override
+    public boolean isMenuPresent(long restaurantId, LocalDate date) {
+        return crudDishRepository.countByDate(restaurantId, date) > 0;
+    }
+
+    @Override
     public Dish get(long id, long restaurantId, LocalDate date) {
         return crudDishRepository.findById(id)
                 .filter(dish -> dish.getRestaurant().getId() == restaurantId)

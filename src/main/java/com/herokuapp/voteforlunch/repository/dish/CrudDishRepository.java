@@ -23,6 +23,9 @@ public interface CrudDishRepository extends JpaRepository<Dish, Long> {
     @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId AND d.date=:date ORDER BY d.name ASC")
     List<Dish> getByDate(@Param("restaurantId") long restaurantId, @Param("date") LocalDate date);
 
+    @Query("SELECT COUNT(d) FROM Dish d WHERE d.restaurant.id=:restaurantId AND d.date=:date")
+    int countByDate(@Param("restaurantId") long restaurantId, @Param("date") LocalDate date);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Dish d WHERE d.id=:id AND d.restaurant.id=:restaurantId AND d.date=:date")

@@ -191,7 +191,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
         LocalDate date = voted.getDateTime().toLocalDate();
         VoteTo newVoteTo = REVOTE_TO_TODAY_ADMIN;
         VOTE_TO_MATCHER_NO_DATETIME.assertMatch(voted, newVoteTo);
-        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(service.getByDate(ADMIN_INGA_ID, date), newVoteTo);
+        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(service.get(ADMIN_INGA_ID, date), newVoteTo);
         DateTimeUtil.setNoRevoteTime(LocalTime.of(11,0));
     }
 
@@ -208,7 +208,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
         LocalDate date = voted.getDateTime().toLocalDate();
         VoteTo newVoteTo = REVOTE_TO_TODAY_PETR;
         VOTE_TO_MATCHER_NO_DATETIME.assertMatch(voted, newVoteTo);
-        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(service.getByDate(USER_PETR_ID, date), newVoteTo);
+        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(service.get(USER_PETR_ID, date), newVoteTo);
         DateTimeUtil.setNoRevoteTime(LocalTime.of(11,0));
     }
 

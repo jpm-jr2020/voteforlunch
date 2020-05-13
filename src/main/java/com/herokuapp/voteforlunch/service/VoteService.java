@@ -5,6 +5,7 @@ import com.herokuapp.voteforlunch.repository.dish.DishRepository;
 import com.herokuapp.voteforlunch.repository.vote.VoteRepository;
 import com.herokuapp.voteforlunch.to.VoteTo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,17 +32,18 @@ public class VoteService {
 
     public List<Vote> getBetween(long userId, LocalDate startDate, LocalDate endDate) {
         return voteRepository.getBetween(userId, startDate, endDate);
-          }
+    }
 
-    public VoteTo getByDate(long userId, LocalDate date) {
-        Vote vote = voteRepository.get(userId, date);
+    public VoteTo get(long userId, LocalDate date) {
+        Vote vote = voteRepository.getWithMenu(userId, date);
         checkNotFoundWithArg(vote, "vote of user with id = " + userId + " for date = " + date);
         return new VoteTo(vote);
     }
 
+    @Transactional
     public VoteTo vote(long userId, long restaurantId, LocalDateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();
-        checkMenuPresent(dishRepository.getByDate(restaurantId, date), restaurantId, date);
+        checkMenuPresent(dishRepository.isMenuPresent(restaurantId, date), restaurantId, date);
         Vote vote = voteRepository.get(userId, date);
 
         if (vote == null) {

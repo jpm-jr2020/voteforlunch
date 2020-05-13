@@ -3,10 +3,12 @@ package com.herokuapp.voteforlunch.web.converter;
 import org.springframework.format.Formatter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import static com.herokuapp.voteforlunch.util.DateTimeUtil.parseLocalDate;
+import static com.herokuapp.voteforlunch.util.DateTimeUtil.parseLocalDateTime;
 
 public class DateTimeFormatters {
     public static class LocalDateFormatter implements Formatter<LocalDate> {
@@ -19,6 +21,19 @@ public class DateTimeFormatters {
         @Override
         public String print(LocalDate lt, Locale locale) {
             return lt.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        }
+    }
+
+        public static class LocalDateTimeFormatter implements Formatter<LocalDateTime> {
+
+        @Override
+        public LocalDateTime parse(String text, Locale locale) {
+            return parseLocalDateTime(text);
+        }
+
+        @Override
+        public String print(LocalDateTime lt, Locale locale) {
+            return lt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         }
     }
 }

@@ -42,6 +42,7 @@
         <property name="formatters">
             <set>
                 <bean class="com.herokuapp.voteforlunch.web.converter.DateTimeFormatters.LocalDateFormatter"/>
+                <bean class="com.herokuapp.voteforlunch.web.converter.DateTimeFormatters.LocalDateTimeFormatter"/>
             </set>
         </property>
     </bean>

@@ -3,7 +3,6 @@ package com.herokuapp.voteforlunch.web.controller;
 import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.service.VoteService;
 import com.herokuapp.voteforlunch.to.VoteTo;
-import com.herokuapp.voteforlunch.util.DateTimeUtil;
 import com.herokuapp.voteforlunch.web.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @RestController
@@ -51,7 +50,7 @@ public class VoteRestController {
     public VoteTo getByDate(@PathVariable LocalDate date) {
         long userId = SecurityUtil.authUserId();
         log.info("votes - user {} getByDate {}", userId, date);
-        return service.getByDate(userId, date);
+        return service.get(userId, date);
     }
 
     @PostMapping
@@ -61,7 +60,7 @@ public class VoteRestController {
 //        LocalDate date = DateTimeUtil.TODAY;
 //        LocalTime time = LocalTime.now();
 //        LocalTime time = LocalTime.of(10, 0);
-        LocalDateTime dateTime = LocalDateTime.now();
+        LocalDateTime dateTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 //        LocalDateTime dateTime = LocalDateTime.of(date, time);
         log.info("vote - user {} for restaurant {} at {}", userId, restaurantId, dateTime);
         VoteTo voteTo = service.vote(userId, restaurantId, dateTime);

@@ -67,8 +67,8 @@ public class ValidationUtil {
         }
     }
 
-    public static void checkMenuPresent(List<Dish> menu, long restaurantId, LocalDate date) {
-        if (menu.isEmpty()) {
+    public static void checkMenuPresent(boolean isMenuPresent, long restaurantId, LocalDate date) {
+        if (!isMenuPresent) {
             throw new NotFoundException("menu of restaurant with id = " + restaurantId + " for date = " + date);
         }
     }

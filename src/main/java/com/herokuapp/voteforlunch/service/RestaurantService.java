@@ -60,6 +60,7 @@ public class RestaurantService {
         checkNotFoundWithArg(restaurantRepository.delete(id), ENTITY_NAME, id);
     }
 
+    @Transactional
     public List<RestaurantTo> getAllWithMenu(long userId, LocalDate today) {
         List<Restaurant> restaurants = restaurantRepository.getAllWithMenu(today);
         Long votedRestaurantId = voteRepository.getRestaurantId(userId, today);
@@ -69,6 +70,7 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public RestaurantTo getWithMenu(long userId, long restaurantId, LocalDate today) {
         Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.getWithMenu(restaurantId, today), ENTITY_NAME, restaurantId);
         Long votedRestaurantId = voteRepository.getRestaurantId(userId, today);

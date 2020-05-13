@@ -9,6 +9,7 @@ import com.herokuapp.voteforlunch.to.MenuTo;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -31,17 +32,20 @@ public class DishService {
     }
 
     @Cacheable(value = "menus")
+    @Transactional
     public MenuTo getAll(long restaurantId) {
         Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.get(restaurantId), "restaurant", restaurantId);
         return new MenuTo(restaurant, dishRepository.getAll(restaurantId));
     }
 
+    @Transactional
     public MenuTo getBetween(long restaurantId, LocalDate startDate, LocalDate endDate) {
         Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.get(restaurantId), "restaurant", restaurantId);
         return new MenuTo(restaurant, dishRepository.getBetween(restaurantId, nullDateToMin(startDate), nullDateToMax(endDate)));
     }
 
     @Cacheable(value = "menus")
+    @Transactional
     public MenuTo getByDate(long restaurantId, LocalDate date) {
         Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.get(restaurantId), "restaurant", restaurantId);
         return new MenuTo(restaurant, dishRepository.getByDate(restaurantId, date));

@@ -1,7 +1,7 @@
 package com.herokuapp.voteforlunch.repository.vote;
 
 import com.herokuapp.voteforlunch.model.Vote;
-import com.herokuapp.voteforlunch.repository.restaurant.CrudRestaurantRepository;
+import com.herokuapp.voteforlunch.repository.restaurant.RestaurantRepository;
 import com.herokuapp.voteforlunch.util.DateTimeUtil;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public class DataJpaVoteRepository implements VoteRepository {
     private final CrudVoteRepository crudVoteRepository;
-    private final CrudRestaurantRepository crudRestaurantRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    public DataJpaVoteRepository(CrudVoteRepository crudVoteRepository, CrudRestaurantRepository crudRestaurantRepository) {
+    public DataJpaVoteRepository(CrudVoteRepository crudVoteRepository, RestaurantRepository restaurantRepository) {
         this.crudVoteRepository = crudVoteRepository;
-        this.crudRestaurantRepository = crudRestaurantRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     @Override
@@ -31,24 +31,28 @@ public class DataJpaVoteRepository implements VoteRepository {
 
     @Override
     @Transactional
-    public Vote save(Vote vote, long restaurantId) {
-        vote.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
-        return crudVoteRepository.save(vote);
-    }
-
-    @Override
-    public Vote get(long userId, LocalDate date) {
-        List<Vote> votes = crudVoteRepository.getBetween(userId, DateTimeUtil.dateToStartOfDay(date), DateTimeUtil.dateToStartOfNextDay(date));
-        if (!votes.isEmpty()) {
-            Vote vote = votes.get(0);
-            vote.setRestaurant(crudRestaurantRepository.getWithMenus(vote.getRestaurant().getId(), date));
+    public Vote getWithMenu(long userId, LocalDate date) {
+        Vote vote = get(userId, date);
+        if (vote != null) {
+            vote.setRestaurant(restaurantRepository.getWithMenu(vote.getRestaurant().getId(), date));
             return vote;
         } else return null;
     }
 
     @Override
+    public Vote get(long userId, LocalDate date) {
+        return crudVoteRepository.get(userId, DateTimeUtil.dateToStartOfDay(date), DateTimeUtil.dateToStartOfNextDay(date));
+    }
+
+    @Override
+    @Transactional
+    public Vote save(Vote vote, long restaurantId) {
+        vote.setRestaurant(restaurantRepository.getWithMenu(restaurantId, vote.getDateTime().toLocalDate()));
+        return crudVoteRepository.save(vote);
+    }
+
+    @Override
     public Long getRestaurantId(long userId, LocalDate date) {
-        Long restaurantId = crudVoteRepository.getRestaurantId(userId, DateTimeUtil.dateToStartOfDay(date), DateTimeUtil.dateToStartOfNextDay(date));
-        return restaurantId;
+        return crudVoteRepository.getRestaurantId(userId, DateTimeUtil.dateToStartOfDay(date), DateTimeUtil.dateToStartOfNextDay(date));
     }
 }
