@@ -45,4 +45,10 @@ public class DataJpaVoteRepository implements VoteRepository {
             return vote;
         } else return null;
     }
+
+    @Override
+    public Long getRestaurantId(long userId, LocalDate date) {
+        Long restaurantId = crudVoteRepository.getRestaurantId(userId, DateTimeUtil.dateToStartOfDay(date), DateTimeUtil.dateToStartOfNextDay(date));
+        return restaurantId;
+    }
 }

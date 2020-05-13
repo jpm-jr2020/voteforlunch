@@ -17,5 +17,7 @@ public interface VoteRepository {
     Vote save(Vote vote, long restaurantId);
 
     Vote get(long userId, LocalDate date);
+
+    Long getRestaurantId(long userId, LocalDate date);
 }
 

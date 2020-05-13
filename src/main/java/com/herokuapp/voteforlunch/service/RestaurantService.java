@@ -63,19 +63,17 @@ public class RestaurantService {
 
     public List<RestaurantTo> getAllWithMenu(long userId, LocalDate today) {
         List<Restaurant> restaurants = restaurantRepository.getAllWithMenu(today);
-        Vote vote = voteRepository.get(userId, today);
-        Restaurant votedRestaurant = vote == null ? null : vote.getRestaurant();
+        Long votedRestaurantId = voteRepository.getRestaurantId(userId, today);
 
         return restaurants.stream()
-                .map(restaurant -> new RestaurantTo(restaurant, restaurant.equals(votedRestaurant)))
+                .map(restaurant -> new RestaurantTo(restaurant, restaurant.getId().equals(votedRestaurantId)))
                 .collect(Collectors.toList());
     }
 
     public RestaurantTo getWithMenu(long userId, long restaurantId, LocalDate today) {
         Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.getWithMenu(restaurantId, today), ENTITY_NAME, restaurantId);
-        Vote vote = voteRepository.get(userId, today);
-        Restaurant votedRestaurant = vote == null ? null : vote.getRestaurant();
+        Long votedRestaurantId = voteRepository.getRestaurantId(userId, today);
 
-        return new RestaurantTo(restaurant, restaurant.equals(votedRestaurant));
+        return new RestaurantTo(restaurant, restaurant.getId().equals(votedRestaurantId));
     }
 }
