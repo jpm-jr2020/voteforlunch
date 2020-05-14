@@ -57,21 +57,21 @@ public class DishService {
         return new DishTo(dish);
     }
 
-    @CacheEvict(value = "menus", allEntries = true)
+    @CacheEvict(value = {"restaurantTos", "menus"}, allEntries = true)
     public Dish create(DishTo dishTo, long restaurantId, LocalDate date) {
         Assert.notNull(dishTo, "dish must not be null");
         checkNew(dishTo);
         return checkNotFoundWithArg(dishRepository.save(new Dish(dishTo, date), restaurantId, date), "restaurant", restaurantId);
     }
 
-    @CacheEvict(value = "menus", allEntries = true)
+    @CacheEvict(value = {"restaurantTos", "menus"}, allEntries = true)
     public void update(DishTo dishTo, long id, long restaurantId, LocalDate date) {
         Assert.notNull(dishTo, "dish must not be null");
         assureIdConsistent(dishTo, id);
         checkNotFoundWithArg(dishRepository.save(new Dish(dishTo, date), restaurantId, date), ENTITY_NAME, id);
     }
 
-    @CacheEvict(value = "menus", allEntries = true)
+    @CacheEvict(value = {"restaurantTos", "menus"}, allEntries = true)
     public void delete(long id, long restaurantId, LocalDate date) {
         checkNotFoundWithArg(dishRepository.delete(id, restaurantId, date), ENTITY_NAME, id);
     }

@@ -23,7 +23,7 @@ public class DateTimeUtil {
 
     private static final LocalDate MIN_DATE = LocalDate.of(1, 1, 1);
     private static final LocalDate MAX_DATE = LocalDate.of(3000, 1, 1);
-    private static LocalTime NO_REVOTE_TIME = LocalTime.of(23, 0);
+    private static LocalTime NO_REVOTE_TIME = LocalTime.of(11, 0);
 
     public static LocalDate nullDateToMin(LocalDate date) {
         return date != null ? date : MIN_DATE;

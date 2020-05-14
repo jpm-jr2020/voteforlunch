@@ -4,6 +4,8 @@ import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.repository.dish.DishRepository;
 import com.herokuapp.voteforlunch.repository.vote.VoteRepository;
 import com.herokuapp.voteforlunch.to.VoteTo;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,7 @@ public class VoteService {
         this.dishRepository = dishRepository;
     }
 
+    @Cacheable("votes")
     public List<Vote> getAll(long userId) {
         return voteRepository.getAll(userId);
     }
@@ -40,6 +43,7 @@ public class VoteService {
         return new VoteTo(vote);
     }
 
+    @CacheEvict(value = {"restaurants", "restaurantTos", "votes"}, allEntries = true)
     @Transactional
     public VoteTo vote(long userId, long restaurantId, LocalDateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();

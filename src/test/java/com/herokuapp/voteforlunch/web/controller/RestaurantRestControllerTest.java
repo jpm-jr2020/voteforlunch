@@ -170,7 +170,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @Test
     void updateNotFound() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
-        super.updateInvalidUrlParameter(REST_URL + 1, updated);
+        super.updateNotFound(REST_URL + 1, updated);
         assertThrows(NotFoundException.class, () -> service.get(1L));
         RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }

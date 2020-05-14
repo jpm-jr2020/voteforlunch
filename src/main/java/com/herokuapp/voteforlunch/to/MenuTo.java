@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class MenuTo {
     private Restaurant restaurant;
-    private Map<LocalDate, List<DishTo>> menus;
+    private Map<LocalDate, List<DishTo>> menus = new TreeMap<>(Comparator.reverseOrder());
 
     public MenuTo(Restaurant restaurant, List<Dish> dishes) {
         this.restaurant = restaurant;
@@ -21,11 +21,11 @@ public class MenuTo {
     @JsonCreator
     public MenuTo(@JsonProperty("restaurant") Restaurant restaurant, @JsonProperty("menus") Map<LocalDate, List<DishTo>> menus) {
         this.restaurant = restaurant;
-        this.menus = new HashMap<>(menus);
+        this.menus.putAll(menus);
     }
 
     private Map<LocalDate, List<DishTo>> loadMenus(List<Dish> dishes) {
-        return dishes.stream().collect(Collectors.groupingBy(Dish::getDate, HashMap::new,
+        return dishes.stream().collect(Collectors.groupingBy(Dish::getDate, () -> new TreeMap<>(Comparator.reverseOrder()),
                 Collectors.mapping(DishTo::new, Collectors.toList())));
     }
 

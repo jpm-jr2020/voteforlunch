@@ -16,7 +16,7 @@ import java.util.List;
 public class Restaurant extends AbstractNamedEntity {
     @Column(name = "address", nullable = false)
     @NotBlank
-    @Size(min = 5, max = 200)
+    @Size(min = 5, max = 100)
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")

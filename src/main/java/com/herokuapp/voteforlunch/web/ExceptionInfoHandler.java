@@ -83,8 +83,8 @@ public class ExceptionInfoHandler {
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)  // 400
     @ExceptionHandler({NoHandlerFoundException.class, MissingServletRequestParameterException.class})
-    public ErrorInfo wrongRequest(HttpServletRequest req, NoHandlerFoundException e) {
-        return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);
+    public ErrorInfo wrongRequest(HttpServletRequest req, Exception e) {
+        return logAndGetErrorInfo(req, e, false, WRONG_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

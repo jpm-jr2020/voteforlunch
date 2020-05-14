@@ -39,27 +39,28 @@ public class RestaurantService {
         return checkNotFoundWithArg(restaurantRepository.get(id), ENTITY_NAME, id);
     }
 
-    @CacheEvict(value = {"restaurants", "menus"}, allEntries = true)
+    @CacheEvict(value = {"restaurants", "restaurantTos", "menus", "votes"}, allEntries = true)
     public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         checkNew(restaurant);
         return restaurantRepository.save(restaurant);
     }
 
-    @CacheEvict(value = {"restaurants", "menus"}, allEntries = true)
+    @CacheEvict(value = {"restaurants", "restaurantTos", "menus", "votes"}, allEntries = true)
     @Transactional
     public void update(Restaurant restaurant, long id) {
         Assert.notNull(restaurant, "restaurant must not be null");
-        assureIdConsistent(restaurant, id);
         checkNotFoundWithArg(restaurantRepository.existsById(id), ENTITY_NAME, id);
+        assureIdConsistent(restaurant, id);
         restaurantRepository.save(restaurant);
     }
 
-    @CacheEvict(value = {"restaurants", "menus"}, allEntries = true)
+    @CacheEvict(value = {"restaurants", "restaurantTos", "menus", "votes"}, allEntries = true)
     public void delete(long id) {
         checkNotFoundWithArg(restaurantRepository.delete(id), ENTITY_NAME, id);
     }
 
+    @Cacheable("restaurantTos")
     @Transactional
     public List<RestaurantTo> getAllWithMenu(long userId, LocalDate today) {
         List<Restaurant> restaurants = restaurantRepository.getAllWithMenu(today);
@@ -70,6 +71,7 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable("restaurantTos")
     @Transactional
     public RestaurantTo getWithMenu(long userId, long restaurantId, LocalDate today) {
         Restaurant restaurant = checkNotFoundWithArg(restaurantRepository.getWithMenu(restaurantId, today), ENTITY_NAME, restaurantId);
