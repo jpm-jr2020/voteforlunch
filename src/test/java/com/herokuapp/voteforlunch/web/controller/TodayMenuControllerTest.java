@@ -92,11 +92,11 @@ class TodayMenuControllerTest extends AbstractControllerTest {
 
     @Test
     void getNotFound() throws Exception {
-        super.getNotFound(REST_URL + 1);
+        super.getWithNotFoundError(REST_URL + 1);
     }
 
     @Test
     void getInvalidId() throws Exception {
-        super.getInvalidUrlParameter(REST_URL + "abc");
+        super.getWithValidationError(REST_URL + "abc");
     }
 }

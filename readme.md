@@ -767,7 +767,7 @@
 ### 6.3. Администратор получает список ресторанов
 ##### `curl -s http://localhost:8080/voteforlunch/admin/restaurants --user inga@gmail.com:passInga`
 
-### 6.4. Администратор создает новый ресторан (ресторян получает id 100050)
+### 6.4. Администратор создает новый ресторан (ресторан получает id 100050)
 ##### `curl -X POST -i -d '{"name":"New restaurant", "address":"Moscow, ul. Tenistaya, 1"}' -H "Content-Type: application/json; charset=UTF-8" -s http://localhost:8080/voteforlunch/admin/restaurants --user inga@gmail.com:passInga`
 
 ### 6.5. Администратор добавляет блюда в меню созданного ресторана на сегодня

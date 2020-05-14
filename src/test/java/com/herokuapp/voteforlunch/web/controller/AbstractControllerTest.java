@@ -140,9 +140,9 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    // INVALID URL calls
+    // INVALID DATA calls
 
-    protected void getInvalidUrlParameter(String url) throws Exception {
+    protected void getWithValidationError(String url) throws Exception {
         perform(MockMvcRequestBuilders.get(url)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isUnprocessableEntity())
@@ -150,7 +150,25 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    protected <T> void updateInvalidUrlParameter(String url, T entity) throws Exception {
+    protected <T> void createWithValidationError(String url, T entity) throws Exception {
+        perform(MockMvcRequestBuilders.post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(entity))
+                .with(userHttpBasic(ADMIN_INGA)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(VALIDATION_ERROR))
+                .andDo(print());
+    }
+
+    protected <T> void postWithValidationError(String url) throws Exception {
+        perform(MockMvcRequestBuilders.post(url)
+                .with(userHttpBasic(ADMIN_INGA)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(VALIDATION_ERROR))
+                .andDo(print());
+    }
+
+    protected <T> void updateWithValidationError(String url, T entity) throws Exception {
         perform(MockMvcRequestBuilders.put(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(entity))
@@ -160,7 +178,7 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    protected void deleteInvalidUrlParameter(String url) throws Exception {
+    protected void deleteWithValidationError(String url) throws Exception {
         perform(MockMvcRequestBuilders.delete(url)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isUnprocessableEntity())
@@ -168,59 +186,7 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    // INVALID ENTITY calls
-
-    protected <T> void createInvalidField(String url, T entity) throws Exception {
-        perform(MockMvcRequestBuilders.post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(entity))
-                .with(userHttpBasic(ADMIN_INGA)))
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(errorType(VALIDATION_ERROR))
-                .andDo(print());
-    }
-
-    protected <T> void postInvalidField(String url) throws Exception {
-        perform(MockMvcRequestBuilders.post(url)
-                .with(userHttpBasic(ADMIN_INGA)))
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(errorType(VALIDATION_ERROR))
-                .andDo(print());
-    }
-
-    protected <T> void updateInvalidField(String url, T entity) throws Exception {
-        perform(MockMvcRequestBuilders.put(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(entity))
-                .with(userHttpBasic(ADMIN_INGA)))
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(errorType(VALIDATION_ERROR))
-                .andDo(print());
-    }
-
-    // INVALID ENTITY ID calls
-
-    protected <T> void createNotNullId(String url, T entity) throws Exception {
-        perform(MockMvcRequestBuilders.post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(entity))
-                .with(userHttpBasic(ADMIN_INGA)))
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(errorType(VALIDATION_ERROR))
-                .andDo(print());
-    }
-
-    protected <T> void updateDifferentIds(String url, T entity) throws Exception {
-        perform(MockMvcRequestBuilders.put(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(entity))
-                .with(userHttpBasic(ADMIN_INGA)))
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(errorType(VALIDATION_ERROR))
-                .andDo(print());
-    }
-
-    // DUPLICATED calls
+    // DUPLICATED DATA calls
 
     protected <T> void createDuplicated(String url, T entity, String exceptionMsg) throws Exception {
         perform(MockMvcRequestBuilders.post(url)
@@ -268,7 +234,7 @@ abstract public class AbstractControllerTest {
 
     // NOT FOUND calls
 
-    protected void getNotFound(String url) throws Exception {
+    protected void getWithNotFoundError(String url) throws Exception {
         perform(MockMvcRequestBuilders.get(url)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isUnprocessableEntity())
@@ -276,7 +242,7 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    protected <T> void createNotFound(String url, T entity) throws Exception {
+    protected <T> void createWithNotFoundError(String url, T entity) throws Exception {
         perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(entity))
@@ -286,7 +252,7 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    protected <T> void postNotFound(String url) throws Exception {
+    protected <T> void postWithNotFoundError(String url) throws Exception {
         perform(MockMvcRequestBuilders.post(url)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isUnprocessableEntity())
@@ -294,7 +260,7 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    protected <T> void updateNotFound(String url, T entity) throws Exception {
+    protected <T> void updateWithNotFoundError(String url, T entity) throws Exception {
         perform(MockMvcRequestBuilders.put(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(entity))
@@ -304,7 +270,7 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    protected void deleteNotFound(String url) throws Exception {
+    protected void deleteWithNotFoundError(String url) throws Exception {
         perform(MockMvcRequestBuilders.delete(url)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isUnprocessableEntity())
@@ -314,7 +280,7 @@ abstract public class AbstractControllerTest {
 
     // BAD REQUEST calls
 
-    protected void postBadRequest(String url) throws Exception {
+    protected void postWithBadRequest(String url) throws Exception {
         perform(MockMvcRequestBuilders.post(url)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isBadRequest())

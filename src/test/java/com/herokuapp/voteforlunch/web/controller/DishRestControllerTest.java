@@ -50,13 +50,13 @@ class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void getNotFound() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TOMORROW) + 1;
-        super.getNotFound(url);
+        super.getWithNotFoundError(url);
     }
 
     @Test
     void getInvalidId() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TOMORROW) + "abc";
-        super.getInvalidUrlParameter(url);
+        super.getWithValidationError(url);
     }
 
     @Test
@@ -74,25 +74,25 @@ class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void getInvalidRestaurant() throws Exception {
         String url = composeUrl("abc", DateTimeUtil.TOMORROW) + DISH_HI_TOMORROW2_ID;
-        super.getInvalidUrlParameter(url);
+        super.getWithValidationError(url);
     }
 
     @Test
     void getInvalidDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, "abc") + DISH_HI_TOMORROW2_ID;
-        super.getInvalidUrlParameter(url);
+        super.getWithValidationError(url);
     }
 
     @Test
     void getOtherRestaurant() throws Exception {
         String url = composeUrl(RESTAURANT_PR_ID, DateTimeUtil.TOMORROW) + DISH_HI_TOMORROW2_ID;
-        super.getNotFound(url);
+        super.getWithNotFoundError(url);
     }
 
     @Test
     void getOtherDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.YESTERDAY) + DISH_HI_TOMORROW2_ID;
-        super.getNotFound(url);
+        super.getWithNotFoundError(url);
     }
 
     // CREATE tests
@@ -134,21 +134,21 @@ class DishRestControllerTest extends AbstractControllerTest {
     void createInvalidPrice() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TOMORROW);
         DishTo newDish = DishTestData.getNewWithInvalidPrice();
-        super.createInvalidField(url, newDish);
+        super.createWithValidationError(url, newDish);
     }
 
     @Test
     void createInvalidName() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TOMORROW);
         DishTo newDish = DishTestData.getNewWithInvalidName();
-        super.createInvalidField(url, newDish);
+        super.createWithValidationError(url, newDish);
     }
 
     @Test
     void createNotNullId() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TOMORROW);
         DishTo newDish = DishTestData.getNewWithId(1L);
-        super.createNotNullId(url, newDish);
+        super.createWithValidationError(url, newDish);
         assertThrows(NotFoundException.class, () -> service.get(1L, RESTAURANT_HI_ID, DateTimeUtil.TOMORROW));
     }
 
@@ -171,21 +171,21 @@ class DishRestControllerTest extends AbstractControllerTest {
     void createInvalidRestaurant() throws Exception {
         String url = composeUrl("abc", DateTimeUtil.TOMORROW);
         DishTo newDish = DishTestData.getNew();
-        super.createInvalidField(url, newDish);
+        super.createWithValidationError(url, newDish);
     }
 
     @Test
     void createNotFoundRestaurant() throws Exception {
         String url = composeUrl(1L, DateTimeUtil.TOMORROW);
         DishTo newDish = DishTestData.getNew();
-        super.createNotFound(url, newDish);
+        super.createWithNotFoundError(url, newDish);
     }
 
     @Test
     void createInvalidDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, "abc");
         DishTo newDish = DishTestData.getNew();
-        super.createInvalidField(url, newDish);
+        super.createWithValidationError(url, newDish);
     }
 
     @Test
@@ -228,7 +228,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     void updateNotFound() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TODAY) + 1;
         DishTo updated = DishTestData.getUpdated();
-        super.updateInvalidUrlParameter(url, updated);
+        super.updateWithValidationError(url, updated);
         assertThrows(NotFoundException.class, () -> service.get(1L, RESTAURANT_HI_ID, DateTimeUtil.TODAY));
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
@@ -238,7 +238,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     void updateInvalidId() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TODAY) + "abc";
         DishTo updated = DishTestData.getUpdated();
-        super.updateInvalidUrlParameter(url, updated);
+        super.updateWithValidationError(url, updated);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -265,7 +265,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     void updateInvalidPrice() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
         DishTo updated = DishTestData.getUpdatedWithInvalidPrice();
-        super.updateInvalidField(url, updated);
+        super.updateWithValidationError(url, updated);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -274,7 +274,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     void updateInvalidName() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
         DishTo updated = DishTestData.getUpdatedWithInvalidName();
-        super.updateInvalidField(url, updated);
+        super.updateWithValidationError(url, updated);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -283,7 +283,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     void updateDifferentIds() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
         DishTo updated = DishTestData.getUpdatedWithDifferentId();
-        super.updateDifferentIds(url, updated);
+        super.updateWithValidationError(url, updated);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -326,7 +326,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     void updateInvalidRestaurant() throws Exception {
         String url = composeUrl("abc", DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
         DishTo updated = DishTestData.getUpdated();
-        super.updateInvalidField(url, updated);
+        super.updateWithValidationError(url, updated);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -335,7 +335,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     void updateNotFoundRestaurant() throws Exception {
         String url = composeUrl(1L, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
         DishTo updated = DishTestData.getUpdated();
-        super.updateNotFound(url, updated);
+        super.updateWithNotFoundError(url, updated);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -344,7 +344,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     void updateInvalidDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, "abc") + DISH_HI_TODAY2_ID;
         DishTo updated = DishTestData.getUpdated();
-        super.updateInvalidField(url, updated);
+        super.updateWithValidationError(url, updated);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -353,7 +353,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     void updateOtherDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TOMORROW) + DISH_HI_TODAY2_ID;
         DishTo updated = DishTestData.getUpdated();
-        super.updateNotFound(url, updated);
+        super.updateWithNotFoundError(url, updated);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -373,13 +373,13 @@ class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void deleteNotFound() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TODAY) + 1;
-        super.deleteNotFound(url);
+        super.deleteWithNotFoundError(url);
     }
 
     @Test
     void deleteInvalidId() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TODAY) + "abc";
-        super.deleteInvalidUrlParameter(url);
+        super.deleteWithValidationError(url);
     }
 
     @Test
@@ -401,7 +401,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void deleteInvalidRestaurant() throws Exception {
         String url = composeUrl("abc", DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
-        super.deleteInvalidUrlParameter(url);
+        super.deleteWithValidationError(url);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -409,7 +409,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void deleteNotFoundRestaurant() throws Exception {
         String url = composeUrl(1L, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
-        super.deleteNotFound(url);
+        super.deleteWithNotFoundError(url);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -417,7 +417,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void deleteOtherRestaurant() throws Exception {
         String url = composeUrl(RESTAURANT_PR_ID, DateTimeUtil.TODAY) + DISH_HI_TODAY2_ID;
-        super.deleteNotFound(url);
+        super.deleteWithNotFoundError(url);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -425,7 +425,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void deleteInvalidDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, "abc") + DISH_HI_TODAY2_ID;
-        super.deleteInvalidUrlParameter(url);
+        super.deleteWithValidationError(url);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -433,7 +433,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void deleteDifferentDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TOMORROW) + DISH_HI_TODAY2_ID;
-        super.deleteNotFound(url);
+        super.deleteWithNotFoundError(url);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }
@@ -441,7 +441,7 @@ class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void deleteOtherDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID, DateTimeUtil.TOMORROW.plus(1, ChronoUnit.DAYS)) + DISH_HI_TODAY2_ID;
-        super.deleteNotFound(url);
+        super.deleteWithNotFoundError(url);
         DishTo remained = service.get(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, DateTimeUtil.TODAY);
         DISH_TO_MATCHER.assertMatch(remained, DISH_HI_TODAY2);
     }

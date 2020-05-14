@@ -1,9 +1,7 @@
 package com.herokuapp.voteforlunch.web.controller;
 
-import com.herokuapp.voteforlunch.service.DishService;
 import com.herokuapp.voteforlunch.web.MenuTestData;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -48,13 +46,13 @@ class MenuRestControllerTest extends AbstractControllerTest {
     @Test
     void getAllInvalidRestaurant() throws Exception {
         String url = composeUrl("abc");
-        super.getInvalidUrlParameter(url);
+        super.getWithValidationError(url);
     }
 
     @Test
     void getAllNotFoundRestaurant() throws Exception {
         String url = composeUrl(1L);
-        super.getNotFound(url);
+        super.getWithNotFoundError(url);
     }
 
     @Test
@@ -138,25 +136,25 @@ class MenuRestControllerTest extends AbstractControllerTest {
     @Test
     void getBetweenInvalidRestaurant() throws Exception {
         String url = composeUrl("abc") + "filter";
-        super.getInvalidUrlParameter(url);
+        super.getWithValidationError(url);
     }
 
     @Test
     void getBetweenNotFoundRestaurant() throws Exception {
         String url = composeUrl(1L) + "filter";
-        super.getNotFound(url);
+        super.getWithNotFoundError(url);
     }
 
     @Test
     void getBetweenInvalidStart() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID) + "filter?startDate=abc";
-        super.getInvalidUrlParameter(url);
+        super.getWithValidationError(url);
     }
 
     @Test
     void getBetweenInvalidEnd() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID) + "filter?endDate=abc";
-        super.getInvalidUrlParameter(url);
+        super.getWithValidationError(url);
     }
 
     @Test
@@ -196,19 +194,19 @@ class MenuRestControllerTest extends AbstractControllerTest {
     @Test
     void getByDateInvalidRestaurant() throws Exception {
         String url = composeUrl("abc") + TOMORROW;
-        super.getInvalidUrlParameter(url);
+        super.getWithValidationError(url);
     }
 
     @Test
     void getByDateNotFoundRestaurant() throws Exception {
         String url = composeUrl(1L) + TOMORROW;
-        super.getNotFound(url);
+        super.getWithNotFoundError(url);
     }
 
     @Test
     void getByDateInvalidDate() throws Exception {
         String url = composeUrl(RESTAURANT_HI_ID) + "abc";
-        super.getInvalidUrlParameter(url);
+        super.getWithValidationError(url);
     }
 
     // Helper methods

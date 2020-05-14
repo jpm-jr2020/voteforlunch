@@ -65,12 +65,12 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getNotFound() throws Exception {
-        super.getNotFound(REST_URL + 1);
+        super.getWithNotFoundError(REST_URL + 1);
     }
 
     @Test
     void getInvalidId() throws Exception {
-        super.getInvalidUrlParameter(REST_URL + "abc");
+        super.getWithValidationError(REST_URL + "abc");
     }
 
     @Test
@@ -119,21 +119,21 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     void createInvalidAddress() throws Exception {
         Restaurant newRestaurant = RestaurantTestData.getNew();
         newRestaurant.setAddress(null);
-        super.createInvalidField(REST_URL, newRestaurant);
+        super.createWithValidationError(REST_URL, newRestaurant);
     }
 
     @Test
     void createInvalidName() throws Exception {
         Restaurant newRestaurant = RestaurantTestData.getNew();
         newRestaurant.setName("A");
-        super.createInvalidField(REST_URL, newRestaurant);
+        super.createWithValidationError(REST_URL, newRestaurant);
     }
 
     @Test
     void createNotNullId() throws Exception {
         Restaurant newRestaurant = RestaurantTestData.getNew();
         newRestaurant.setId(1L);
-        super.createNotNullId(REST_URL, newRestaurant);
+        super.createWithValidationError(REST_URL, newRestaurant);
         assertThrows(NotFoundException.class, () -> service.get(1L));
     }
 
@@ -170,7 +170,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @Test
     void updateNotFound() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
-        super.updateNotFound(REST_URL + 1, updated);
+        super.updateWithNotFoundError(REST_URL + 1, updated);
         assertThrows(NotFoundException.class, () -> service.get(1L));
         RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
@@ -178,7 +178,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @Test
     void updateInvalidId() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
-        super.updateInvalidUrlParameter(REST_URL + "abc", updated);
+        super.updateWithValidationError(REST_URL + "abc", updated);
         RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
@@ -200,7 +200,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     void updateInvalidAddress() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
         updated.setAddress("A");
-        super.updateInvalidField(REST_URL + RESTAURANT_PR_ID, updated);
+        super.updateWithValidationError(REST_URL + RESTAURANT_PR_ID, updated);
         RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
@@ -208,7 +208,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     void updateInvalidName() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
         updated.setName("A");
-        super.updateInvalidField(REST_URL + RESTAURANT_PR_ID, updated);
+        super.updateWithValidationError(REST_URL + RESTAURANT_PR_ID, updated);
         RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
@@ -216,7 +216,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     void updateDifferentIds() throws Exception {
         Restaurant updated = RestaurantTestData.getUpdated();
         updated.setId(1L);
-        super.updateDifferentIds(REST_URL + RESTAURANT_PR_ID, updated);
+        super.updateWithValidationError(REST_URL + RESTAURANT_PR_ID, updated);
         RESTAURANT_MATCHER.assertMatch(service.get(RESTAURANT_PR_ID), RESTAURANT_PR);
     }
 
@@ -265,12 +265,12 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteNotFound() throws Exception {
-        super.deleteNotFound(REST_URL + 1);
+        super.deleteWithNotFoundError(REST_URL + 1);
     }
 
     @Test
     void deleteInvalidId() throws Exception {
-        super.deleteInvalidUrlParameter(REST_URL + "abc");
+        super.deleteWithValidationError(REST_URL + "abc");
     }
 
     @Test

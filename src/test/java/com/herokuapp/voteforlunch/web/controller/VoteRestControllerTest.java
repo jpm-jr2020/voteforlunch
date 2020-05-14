@@ -131,12 +131,12 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getInvalidStart() throws Exception {
-        super.getInvalidUrlParameter(REST_URL + "filter&startDate=abc");
+        super.getWithValidationError(REST_URL + "filter&startDate=abc");
     }
 
     @Test
     void getInvalidEnd() throws Exception {
-        super.getInvalidUrlParameter(REST_URL + "filter&endDate=abc");
+        super.getWithValidationError(REST_URL + "filter&endDate=abc");
     }
 
     // GET DATE tests
@@ -153,7 +153,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getByAdminOtherDay() throws Exception {
-        super.getNotFound(REST_URL + TOMORROW.plus(1, ChronoUnit.DAYS));
+        super.getWithNotFoundError(REST_URL + TOMORROW.plus(1, ChronoUnit.DAYS));
     }
 
     @Test
@@ -173,7 +173,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getInvalidDate() throws Exception {
-        super.getInvalidUrlParameter(REST_URL + "abc");
+        super.getWithValidationError(REST_URL + "abc");
     }
 
     // VOTE tests
@@ -219,17 +219,17 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void voteInvalidRestarant() throws Exception {
-        super.postInvalidField(REST_URL + "?restaurantId=abc");
+        super.postWithValidationError(REST_URL + "?restaurantId=abc");
     }
 
     @Test
     void voteNullRestarant() throws Exception {
-        super.postBadRequest(REST_URL);
+        super.postWithBadRequest(REST_URL);
     }
 
     @Test
     void voteNoRestaurant() throws Exception {
-        super.postNotFound(REST_URL + "?restaurantId=1");
+        super.postWithNotFoundError(REST_URL + "?restaurantId=1");
     }
 
     @Test
@@ -237,13 +237,13 @@ class VoteRestControllerTest extends AbstractControllerTest {
        dishService.delete(DISH_HI_TODAY1_ID, RESTAURANT_HI_ID, TODAY);
        dishService.delete(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, TODAY);
 
-       super.postNotFound(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID);
+       super.postWithNotFoundError(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID);
     }
 
     @Test
     void voteTooLate() throws Exception {
         DateTimeUtil.setNoRevoteTime(LocalTime.of(0,1));
-        super.postBadRequest(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID);
+        super.postWithBadRequest(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID);
         DateTimeUtil.setNoRevoteTime(LocalTime.of(11,0));
     }
 
