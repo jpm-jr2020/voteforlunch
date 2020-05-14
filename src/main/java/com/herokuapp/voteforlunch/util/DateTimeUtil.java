@@ -42,11 +42,11 @@ public class DateTimeUtil {
     }
 
     public static @Nullable LocalDate parseLocalDate(@Nullable String str) {
-        return StringUtils.isEmpty(str) ? null : LocalDate.parse(str);
+        return StringUtils.isEmpty(str) ? null : LocalDate.parse(str, DateTimeUtil.DATE_FORMATTER);
     }
 
     public static @Nullable LocalDateTime parseLocalDateTime(@Nullable String str) {
-        return StringUtils.isEmpty(str) ? null : LocalDateTime.parse(str);
+        return StringUtils.isEmpty(str) ? null : LocalDateTime.parse(str, DateTimeUtil.DATE_TIME_FORMATTER);
     }
 
     public static void checkCanRevote(LocalTime time) {

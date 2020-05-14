@@ -1,5 +1,6 @@
 package com.herokuapp.voteforlunch.web.converter;
 
+import com.herokuapp.voteforlunch.util.DateTimeUtil;
 import org.springframework.format.Formatter;
 
 import java.time.LocalDate;
@@ -20,11 +21,11 @@ public class DateTimeFormatters {
 
         @Override
         public String print(LocalDate lt, Locale locale) {
-            return lt.format(DateTimeFormatter.ISO_LOCAL_DATE);
+            return lt.format(DateTimeUtil.DATE_FORMATTER);
         }
     }
 
-        public static class LocalDateTimeFormatter implements Formatter<LocalDateTime> {
+    public static class LocalDateTimeFormatter implements Formatter<LocalDateTime> {
 
         @Override
         public LocalDateTime parse(String text, Locale locale) {
@@ -33,7 +34,7 @@ public class DateTimeFormatters {
 
         @Override
         public String print(LocalDateTime lt, Locale locale) {
-            return lt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            return lt.format(DateTimeUtil.DATE_TIME_FORMATTER);
         }
     }
 }
