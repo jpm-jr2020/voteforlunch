@@ -14,7 +14,7 @@
 
     <cache-template name="rareExpirySmallCache">
         <expiry>
-            <ttl unit="hours">1</ttl>
+            <ttl unit="days">7</ttl>
         </expiry>
         <heap unit="entries">100</heap>
     </cache-template>
