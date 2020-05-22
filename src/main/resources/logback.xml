@@ -5,7 +5,7 @@
     <jmxConfigurator/>
 
     <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>S:/J/projects/grad02/log/voteforlunch.log</file>
+        <file>../logs/voteforlunch.log</file>
         <encoder>
             <charset>UTF-8</charset>
             <pattern>%date %-5level %logger{50}.%M:%L - %msg%n</pattern>

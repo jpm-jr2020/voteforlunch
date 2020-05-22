@@ -5,10 +5,10 @@ import org.springframework.format.Formatter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Locale;
 
-import static com.herokuapp.voteforlunch.util.DateTimeUtil.parseLocalDate;
-import static com.herokuapp.voteforlunch.util.DateTimeUtil.parseLocalDateTime;
+import static com.herokuapp.voteforlunch.util.DateTimeUtil.*;
 
 public class DateTimeFormatters {
     public static class LocalDateFormatter implements Formatter<LocalDate> {
@@ -21,6 +21,19 @@ public class DateTimeFormatters {
         @Override
         public String print(LocalDate lt, Locale locale) {
             return lt.format(DateTimeUtil.DATE_FORMATTER);
+        }
+    }
+
+    public static class LocalTimeFormatter implements Formatter<LocalTime> {
+
+        @Override
+        public LocalTime parse(String text, Locale locale) {
+            return parseLocalTime(text);
+        }
+
+        @Override
+        public String print(LocalTime lt, Locale locale) {
+            return lt.format(DateTimeUtil.TIME_FORMATTER);
         }
     }
 

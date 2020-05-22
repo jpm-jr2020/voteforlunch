@@ -34,7 +34,7 @@ public class VoteService {
     }
 
     public List<Vote> getBetween(long userId, LocalDate startDate, LocalDate endDate) {
-        return voteRepository.getBetween(userId, startDate, endDate);
+        return voteRepository.getBetween(userId, dateOrMinDate(startDate), dateOrMaxDate(endDate));
     }
 
     public VoteTo get(long userId, LocalDate date) {

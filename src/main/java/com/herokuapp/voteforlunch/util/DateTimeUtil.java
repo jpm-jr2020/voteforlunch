@@ -16,9 +16,11 @@ public class DateTimeUtil {
     public static final LocalDate TOMORROW = LocalDate.now().plus(1, ChronoUnit.DAYS);
 
     public static final String DATE_PATTERN = "yyyy-MM-dd";
+    public static final String TIME_PATTERN = "HH:mm:ss";
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
 
     private static final LocalDate MIN_DATE = LocalDate.of(1, 1, 1);
@@ -33,16 +35,20 @@ public class DateTimeUtil {
         return date != null ? date : MAX_DATE;
     }
 
-    public static LocalDateTime dateToStartOfDay(LocalDate date) {
-        return date != null ? date.atStartOfDay() : MIN_DATE.atStartOfDay();
+    public static LocalDate dateOrMinDate(LocalDate date) {
+        return date != null ? date : MIN_DATE;
     }
 
-    public static LocalDateTime dateToStartOfNextDay(LocalDate date) {
-        return date != null ? date.plus(1, ChronoUnit.DAYS).atStartOfDay() : MAX_DATE.atStartOfDay();
+    public static LocalDate dateOrMaxDate(LocalDate date) {
+        return date != null ? date : MAX_DATE;
     }
 
     public static @Nullable LocalDate parseLocalDate(@Nullable String str) {
         return StringUtils.isEmpty(str) ? null : LocalDate.parse(str, DateTimeUtil.DATE_FORMATTER);
+    }
+
+    public static @Nullable LocalTime parseLocalTime(@Nullable String str) {
+        return StringUtils.isEmpty(str) ? null : LocalTime.parse(str, DateTimeUtil.TIME_FORMATTER);
     }
 
     public static @Nullable LocalDateTime parseLocalDateTime(@Nullable String str) {

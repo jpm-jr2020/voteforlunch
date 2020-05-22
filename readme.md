@@ -57,7 +57,8 @@
   
 ## 1.5. Vote, голос текущего пользователя за меню ресторана на дату
 
-  * LocalDateTime dateTime: дата и время голосования
+  * LocalDate dateTime: дата голосования
+  * LocalTime dateTime: время голосования
   * Restaurant restaurant: ресторан, за который проголосовал текущий пользователь
 
 ## 1.6. VoteTo, голос текущего пользователя за меню ресторана на дату, с меню ресторана на эту дату
@@ -229,7 +230,8 @@
 ###### 
     [
       {
-        "dateTime":LocalDateTime,
+        "date":LocalDate,
+        "time":LocalTime,
         "restaurant":
         {
           "id":Long,
@@ -257,7 +259,8 @@
 ###### 
     [
       {
-        "dateTime":LocalDateTime,
+        "date":LocalDate,
+        "time":LocalTime,
         "restaurant":
         {
           "id":Long,

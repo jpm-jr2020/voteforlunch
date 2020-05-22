@@ -17,7 +17,7 @@ public class VoteTo {
     }
 
     public VoteTo(Vote vote) {
-        this.dateTime = vote.getDateTime();
+        this.dateTime = LocalDateTime.of(vote.getDate(), vote.getTime());
         restaurantTo = new RestaurantTo(vote.getRestaurant(), true);
     }
 

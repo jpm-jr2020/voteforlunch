@@ -26,7 +26,7 @@ public class DataJpaVoteRepository implements VoteRepository {
 
     @Override
     public List<Vote> getBetween(long userId, LocalDate startDate, LocalDate endDate) {
-        return crudVoteRepository.getBetween(userId, DateTimeUtil.dateToStartOfDay(startDate), DateTimeUtil.dateToStartOfNextDay(endDate));
+        return crudVoteRepository.getBetween(userId, startDate, endDate);
     }
 
     @Override
@@ -41,18 +41,18 @@ public class DataJpaVoteRepository implements VoteRepository {
 
     @Override
     public Vote get(long userId, LocalDate date) {
-        return crudVoteRepository.get(userId, DateTimeUtil.dateToStartOfDay(date), DateTimeUtil.dateToStartOfNextDay(date));
+        return crudVoteRepository.get(userId, date);
     }
 
     @Override
     @Transactional
     public Vote save(Vote vote, long restaurantId) {
-        vote.setRestaurant(restaurantRepository.getWithMenu(restaurantId, vote.getDateTime().toLocalDate()));
+        vote.setRestaurant(restaurantRepository.getWithMenu(restaurantId, vote.getDate()));
         return crudVoteRepository.save(vote);
     }
 
     @Override
     public Long getRestaurantId(long userId, LocalDate date) {
-        return crudVoteRepository.getRestaurantId(userId, DateTimeUtil.dateToStartOfDay(date), DateTimeUtil.dateToStartOfNextDay(date));
+        return crudVoteRepository.getRestaurantId(userId, date);
     }
 }
