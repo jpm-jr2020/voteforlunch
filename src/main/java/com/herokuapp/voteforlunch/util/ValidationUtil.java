@@ -1,7 +1,6 @@
 package com.herokuapp.voteforlunch.util;
 
 import com.herokuapp.voteforlunch.model.AbstractEntity;
-import com.herokuapp.voteforlunch.model.Dish;
 import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.to.AbstractTo;
 import com.herokuapp.voteforlunch.util.exception.ErrorType;

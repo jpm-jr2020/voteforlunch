@@ -5,7 +5,6 @@ import org.springframework.format.Formatter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import static com.herokuapp.voteforlunch.util.DateTimeUtil.parseLocalDate;

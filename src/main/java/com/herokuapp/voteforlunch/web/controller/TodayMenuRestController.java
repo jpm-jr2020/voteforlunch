@@ -2,7 +2,6 @@ package com.herokuapp.voteforlunch.web.controller;
 
 import com.herokuapp.voteforlunch.service.RestaurantService;
 import com.herokuapp.voteforlunch.to.RestaurantTo;
-import com.herokuapp.voteforlunch.util.DateTimeUtil;
 import com.herokuapp.voteforlunch.web.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,6 @@ public class TodayMenuRestController {
     public List<RestaurantTo> getAll() {
         long userId = SecurityUtil.authUserId();
         LocalDate today = LocalDate.now();
-//        LocalDate today = DateTimeUtil.TODAY;
         log.info("today {} menus - getAll", today);
         return service.getAllWithMenu(userId, today);
     }
@@ -38,7 +36,6 @@ public class TodayMenuRestController {
     public RestaurantTo getWithMenu(@PathVariable long id) {
         long userId = SecurityUtil.authUserId();
         LocalDate today = LocalDate.now();
-//        LocalDate today = DateTimeUtil.TODAY;
         log.info("today {} menus - get by restaurant {}", today, id);
         return service.getWithMenu(userId, id, today);
     }

@@ -1,7 +1,6 @@
 package com.herokuapp.voteforlunch.repository.vote;
 
 import com.herokuapp.voteforlunch.model.Vote;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,11 +18,6 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Long> {
     @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.userId=:userId AND v.dateTime >= :startDateTime AND v.dateTime < :endDateTime ORDER BY v.dateTime DESC")
     List<Vote> getBetween(@Param("userId") long userId,
                           @Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
-
-//    @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
-//    @Query("SELECT v FROM Vote v WHERE v.userId=:userId AND v.dateTime >= :startDateTime AND v.dateTime < :endDateTime")
-//    Vote getByDate(@Param("userId") long userId,
-//                          @Param("startDateTime") LocalDateTime startDateTime, @Param("endDateTime") LocalDateTime endDateTime);
 
     @Query("SELECT v FROM Vote v WHERE v.userId=:userId AND v.dateTime >= :startDateTime AND v.dateTime < :endDateTime")
     Vote get(@Param("userId") long userId,

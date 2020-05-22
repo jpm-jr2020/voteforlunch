@@ -43,7 +43,7 @@ class TodayMenuControllerTest extends AbstractControllerTest {
         super.getByUnAuth(REST_URL);
     }
 
-//    // GET tests
+//  GET tests
 
     @Test
     void getByAdmin() throws Exception {
