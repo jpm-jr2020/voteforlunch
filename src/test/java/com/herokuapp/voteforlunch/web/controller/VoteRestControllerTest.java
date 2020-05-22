@@ -1,5 +1,6 @@
 package com.herokuapp.voteforlunch.web.controller;
 
+import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.service.DishService;
 import com.herokuapp.voteforlunch.service.VoteService;
 import com.herokuapp.voteforlunch.to.VoteTo;
@@ -43,7 +44,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(VOTE_TOMORROW_ADMIN, VOTE_TODAY_ADMIN, VOTE_YESTERDAY_ADMIN))
+                .andExpect(VOTE_MATCHER.contentJson(VOTE_TOMORROW_ADMIN, VOTE_YESTERDAY_ADMIN))
                 .andDo(print());
     }
 
@@ -70,7 +71,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(VOTE_TOMORROW_ADMIN, VOTE_TODAY_ADMIN, VOTE_YESTERDAY_ADMIN))
+                .andExpect(VOTE_MATCHER.contentJson(VOTE_TOMORROW_ADMIN, VOTE_YESTERDAY_ADMIN))
                 .andDo(print());
     }
 
@@ -80,7 +81,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(VOTE_TODAY_ADMIN, VOTE_YESTERDAY_ADMIN))
+                .andExpect(VOTE_MATCHER.contentJson(new Vote[] {VOTE_YESTERDAY_ADMIN}))
                 .andDo(print());
     }
 
@@ -90,7 +91,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(VOTE_TOMORROW_ADMIN, VOTE_TODAY_ADMIN))
+                .andExpect(VOTE_MATCHER.contentJson(new Vote[] {VOTE_TOMORROW_ADMIN}))
                 .andDo(print());
     }
 
@@ -100,7 +101,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(VOTE_TOMORROW_ADMIN, VOTE_TODAY_ADMIN))
+                .andExpect(VOTE_MATCHER.contentJson(new Vote[] {VOTE_TOMORROW_ADMIN}))
                 .andDo(print());
     }
 
@@ -142,12 +143,12 @@ class VoteRestControllerTest extends AbstractControllerTest {
     // GET DATE tests
 
     @Test
-    void getByAdminToday() throws Exception {
+    void getByUserToday() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + TODAY)
-                .with(userHttpBasic(ADMIN_INGA)))
+                .with(userHttpBasic(USER_PETR)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_TO_MATCHER.contentJson(VOTE_TO_TODAY_ADMIN))
+                .andExpect(VOTE_TO_MATCHER.contentJson(VOTE_TO_TODAY_PETR))
                 .andDo(print());
     }
 
@@ -180,7 +181,6 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void voteByAdmin() throws Exception {
-        DateTimeUtil.setNoRevoteTime(LocalTime.of(23,59));
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "?restaurantId=" + RESTAURANT_MD_ID)
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isCreated())
@@ -189,26 +189,25 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
         VoteTo voted = JsonUtil.readValue(action.andReturn().getResponse().getContentAsString(), VoteTo.class);
         LocalDate date = voted.getDateTime().toLocalDate();
-        VoteTo newVoteTo = REVOTE_TO_TODAY_ADMIN;
+        VoteTo newVoteTo = VOTE_TO_TODAY_ADMIN;
         VOTE_TO_MATCHER_NO_DATETIME.assertMatch(voted, newVoteTo);
         VOTE_TO_MATCHER_NO_DATETIME.assertMatch(service.get(ADMIN_INGA_ID, date), newVoteTo);
-        DateTimeUtil.setNoRevoteTime(LocalTime.of(11,0));
     }
 
     @Test
     void voteByUser() throws Exception {
         DateTimeUtil.setNoRevoteTime(LocalTime.of(23,59));
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "?restaurantId=" + RESTAURANT_PR_ID)
-                .with(userHttpBasic(USER_PETR)))
+                .with(userHttpBasic(USER_IVAN)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andDo(print());
 
         VoteTo voted = JsonUtil.readValue(action.andReturn().getResponse().getContentAsString(), VoteTo.class);
         LocalDate date = voted.getDateTime().toLocalDate();
-        VoteTo newVoteTo = REVOTE_TO_TODAY_PETR;
+        VoteTo newVoteTo = VOTE_TO_TODAY_IVAN;
         VOTE_TO_MATCHER_NO_DATETIME.assertMatch(voted, newVoteTo);
-        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(service.get(USER_PETR_ID, date), newVoteTo);
+        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(service.get(USER_IVAN_ID, date), newVoteTo);
         DateTimeUtil.setNoRevoteTime(LocalTime.of(11,0));
     }
 
@@ -219,17 +218,17 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void voteInvalidRestarant() throws Exception {
-        super.postWithValidationError(REST_URL + "?restaurantId=abc");
+        super.postWithValidationError(REST_URL + "?restaurantId=abc", USER_IVAN);
     }
 
     @Test
     void voteNullRestarant() throws Exception {
-        super.postWithBadRequest(REST_URL);
+        super.postWithBadRequest(REST_URL, USER_IVAN);
     }
 
     @Test
     void voteNoRestaurant() throws Exception {
-        super.postWithNotFoundError(REST_URL + "?restaurantId=1");
+        super.postWithNotFoundError(REST_URL + "?restaurantId=1", USER_IVAN);
     }
 
     @Test
@@ -237,13 +236,63 @@ class VoteRestControllerTest extends AbstractControllerTest {
        dishService.delete(DISH_HI_TODAY1_ID, RESTAURANT_HI_ID, TODAY);
        dishService.delete(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, TODAY);
 
-       super.postWithNotFoundError(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID);
+       super.postWithNotFoundError(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID,USER_IVAN);
     }
 
     @Test
-    void voteTooLate() throws Exception {
+    void voteAlreadyVoted() throws Exception {
+        super.postWithValidationError(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID, USER_PETR);
+    }
+
+    @Test
+    void revoteByUser() throws Exception {
+        DateTimeUtil.setNoRevoteTime(LocalTime.of(23,59));
+        perform(MockMvcRequestBuilders.put(REST_URL + "?restaurantId=" + RESTAURANT_PR_ID)
+                .with(userHttpBasic(USER_PETR)))
+                .andExpect(status().isNoContent())
+                .andDo(print());
+
+        VOTE_TO_MATCHER_NO_DATETIME.assertMatch(service.get(USER_PETR_ID, TODAY), REVOTE_TO_TODAY_PETR);
+        DateTimeUtil.setNoRevoteTime(LocalTime.of(11,0));
+    }
+
+    @Test
+    void revoteByUnAuth() throws Exception {
+        super.putByUnAuth(REST_URL + "?restaurantId=" + RESTAURANT_PR_ID);
+    }
+
+    @Test
+    void revoteInvalidRestarant() throws Exception {
+        super.putWithValidationError(REST_URL + "?restaurantId=abc", USER_PETR);
+    }
+
+    @Test
+    void revoteNullRestarant() throws Exception {
+        super.putWithBadRequest(REST_URL, USER_PETR);
+    }
+
+    @Test
+    void revoteNoRestaurant() throws Exception {
+        super.putWithNotFoundError(REST_URL + "?restaurantId=1", USER_PETR);
+    }
+
+    @Test
+    void revoteNoMenu() throws Exception {
+        dishService.delete(DISH_HI_TODAY1_ID, RESTAURANT_HI_ID, TODAY);
+        dishService.delete(DISH_HI_TODAY2_ID, RESTAURANT_HI_ID, TODAY);
+
+        super.putWithNotFoundError(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID, USER_PETR);
+    }
+
+    @Test
+    void revoteNotVoted() throws Exception {
+        super.putWithNotFoundError(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID, ADMIN_INGA);
+    }
+
+    @Test
+    void revoteTooLate() throws Exception {
         DateTimeUtil.setNoRevoteTime(LocalTime.of(0,1));
-        super.postWithBadRequest(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID);
+        super.putWithTimeViolation(REST_URL + "?restaurantId=" + RESTAURANT_HI_ID, USER_PETR);
         DateTimeUtil.setNoRevoteTime(LocalTime.of(11,0));
     }
 

@@ -59,9 +59,7 @@ INSERT INTO votes (date_time, fk_user_id, fk_restaurant_id) VALUES
   (date_to_str(yesterday_date()) + ' 10:00:00', 100000, 100003),          /*100_024*/
   (date_to_str(yesterday_date()) + ' 10:30:00', 100002, 100004),          /*100_025*/
 
-  (date_to_str(today_date()) + ' 09:00:00', 100000, 100004),          /*100_026*/
-  (date_to_str(today_date()) + ' 14:00:00', 100001, 100005),          /*100_027*/
-  (date_to_str(today_date()) + ' 10:10:00', 100002, 100004),          /*100_028*/
+  (date_to_str(today_date()) + ' 14:00:00', 100001, 100005),          /*100_026*/
 
-  (date_to_str(tomorrow_date()) + ' 12:00:00', 100001, 100003),          /*100_029*/
-  (date_to_str(tomorrow_date()) + ' 07:00:00', 100002, 100005);          /*100_030*/
+  (date_to_str(tomorrow_date()) + ' 12:00:00', 100001, 100003),          /*100_027*/
+  (date_to_str(tomorrow_date()) + ' 07:00:00', 100002, 100005);          /*100_028*/

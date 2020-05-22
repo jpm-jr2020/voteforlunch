@@ -2,6 +2,7 @@ package com.herokuapp.voteforlunch.util;
 
 import com.herokuapp.voteforlunch.model.AbstractEntity;
 import com.herokuapp.voteforlunch.model.Dish;
+import com.herokuapp.voteforlunch.model.Vote;
 import com.herokuapp.voteforlunch.to.AbstractTo;
 import com.herokuapp.voteforlunch.util.exception.ErrorType;
 import com.herokuapp.voteforlunch.util.exception.IllegalRequestDataException;
@@ -70,6 +71,13 @@ public class ValidationUtil {
     public static void checkMenuPresent(boolean isMenuPresent, long restaurantId, LocalDate date) {
         if (!isMenuPresent) {
             throw new NotFoundException("menu of restaurant with id = " + restaurantId + " for date = " + date);
+        }
+    }
+
+    public static void checkVoteAbsent(Vote vote) {
+        if (vote != null) {
+            throw new IllegalRequestDataException("vote already exists for restaurant with id = " +
+                    vote.getRestaurant().getId() + " at " + vote.getDateTime());
         }
     }
 

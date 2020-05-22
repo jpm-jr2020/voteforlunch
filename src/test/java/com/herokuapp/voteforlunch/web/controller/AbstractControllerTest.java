@@ -1,5 +1,6 @@
 package com.herokuapp.voteforlunch.web.controller;
 
+import com.herokuapp.voteforlunch.model.User;
 import com.herokuapp.voteforlunch.web.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -101,6 +102,13 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
+    protected <T> void putByUnAuth(String url) throws Exception {
+        perform(MockMvcRequestBuilders.put(url)
+                .with(userHttpBasic(ALIEN)))
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
+
     protected void deleteByUnAuth(String url) throws Exception {
         perform(MockMvcRequestBuilders.delete(url)
                 .with(userHttpBasic(ALIEN)))
@@ -160,9 +168,9 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    protected <T> void postWithValidationError(String url) throws Exception {
+    protected <T> void postWithValidationError(String url, User user) throws Exception {
         perform(MockMvcRequestBuilders.post(url)
-                .with(userHttpBasic(ADMIN_INGA)))
+                .with(userHttpBasic(user)))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(errorType(VALIDATION_ERROR))
                 .andDo(print());
@@ -173,6 +181,14 @@ abstract public class AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(entity))
                 .with(userHttpBasic(ADMIN_INGA)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(VALIDATION_ERROR))
+                .andDo(print());
+    }
+
+    protected <T> void putWithValidationError(String url, User user) throws Exception {
+        perform(MockMvcRequestBuilders.put(url)
+                .with(userHttpBasic(user)))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(errorType(VALIDATION_ERROR))
                 .andDo(print());
@@ -252,9 +268,9 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
-    protected <T> void postWithNotFoundError(String url) throws Exception {
+    protected <T> void postWithNotFoundError(String url, User user) throws Exception {
         perform(MockMvcRequestBuilders.post(url)
-                .with(userHttpBasic(ADMIN_INGA)))
+                .with(userHttpBasic(user)))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(errorType(DATA_NOT_FOUND))
                 .andDo(print());
@@ -270,6 +286,14 @@ abstract public class AbstractControllerTest {
                 .andDo(print());
     }
 
+    protected <T> void putWithNotFoundError(String url, User user) throws Exception {
+        perform(MockMvcRequestBuilders.put(url)
+                .with(userHttpBasic(user)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(DATA_NOT_FOUND))
+                .andDo(print());
+    }
+
     protected void deleteWithNotFoundError(String url) throws Exception {
         perform(MockMvcRequestBuilders.delete(url)
                 .with(userHttpBasic(ADMIN_INGA)))
@@ -280,10 +304,27 @@ abstract public class AbstractControllerTest {
 
     // BAD REQUEST calls
 
-    protected void postWithBadRequest(String url) throws Exception {
+    protected void postWithBadRequest(String url, User user) throws Exception {
         perform(MockMvcRequestBuilders.post(url)
-                .with(userHttpBasic(ADMIN_INGA)))
+                .with(userHttpBasic(user)))
                 .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    protected void putWithBadRequest(String url, User user) throws Exception {
+        perform(MockMvcRequestBuilders.put(url)
+                .with(userHttpBasic(user)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    // TIME VIOLATION calls
+
+    protected void putWithTimeViolation(String url, User user) throws Exception {
+        perform(MockMvcRequestBuilders.put(url)
+                .with(userHttpBasic(user)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(errorType(TIME_VIOLATION))
                 .andDo(print());
     }
 }

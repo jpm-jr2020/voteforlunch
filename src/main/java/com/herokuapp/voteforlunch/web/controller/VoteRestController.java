@@ -6,6 +6,7 @@ import com.herokuapp.voteforlunch.to.VoteTo;
 import com.herokuapp.voteforlunch.web.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -56,12 +57,7 @@ public class VoteRestController {
     @PostMapping
     public ResponseEntity<VoteTo> vote(@RequestParam long restaurantId) {
         long userId = SecurityUtil.authUserId();
-//        LocalDate date = LocalDate.now();
-//        LocalDate date = DateTimeUtil.TODAY;
-//        LocalTime time = LocalTime.now();
-//        LocalTime time = LocalTime.of(10, 0);
         LocalDateTime dateTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-//        LocalDateTime dateTime = LocalDateTime.of(date, time);
         log.info("vote - user {} for restaurant {} at {}", userId, restaurantId, dateTime);
         VoteTo voteTo = service.vote(userId, restaurantId, dateTime);
 
@@ -69,5 +65,14 @@ public class VoteRestController {
                 .path(REST_URL + "/{date}")
                 .buildAndExpand(voteTo.getDateTime().toLocalDate()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(voteTo);
+    }
+
+    @PutMapping
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void revote(@RequestParam long restaurantId) {
+        long userId = SecurityUtil.authUserId();
+        LocalDateTime dateTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        log.info("vote - user {} for restaurant {} at {}", userId, restaurantId, dateTime);
+        service.revote(userId, restaurantId, dateTime);
     }
 }

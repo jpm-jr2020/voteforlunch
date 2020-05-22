@@ -48,15 +48,25 @@ public class VoteService {
     public VoteTo vote(long userId, long restaurantId, LocalDateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();
         checkMenuPresent(dishRepository.isMenuPresent(restaurantId, date), restaurantId, date);
-        Vote vote = voteRepository.get(userId, date);
+        checkVoteAbsent(voteRepository.get(userId, date));
 
-        if (vote == null) {
-            vote = new Vote();
-            vote.setUserId(userId);
-        } else {
-            checkCanRevote(dateTime.toLocalTime());
-        }
+        Vote vote = new Vote();
+        vote.setUserId(userId);
         vote.setDateTime(dateTime);
         return new VoteTo(voteRepository.save(vote, restaurantId));
+    }
+
+    @CacheEvict(value = {"restaurants", "restaurantTos", "votes"}, allEntries = true)
+    @Transactional
+    public void revote(long userId, long restaurantId, LocalDateTime dateTime) {
+        LocalDate date = dateTime.toLocalDate();
+        checkMenuPresent(dishRepository.isMenuPresent(restaurantId, date), restaurantId, date);
+        Vote vote = voteRepository.get(userId, date);
+
+        checkNotFoundWithArg(vote, "no vote exists for restaurant with id = " + restaurantId);
+        checkCanRevote(dateTime.toLocalTime());
+
+        vote.setDateTime(dateTime);
+        voteRepository.save(vote, restaurantId);
     }
 }

@@ -5,6 +5,6 @@ public class TimeViolationException extends ApplicationException {
 
     //  http://stackoverflow.com/a/22358422/548473
     public TimeViolationException(String arg) {
-        super(ErrorType.WRONG_REQUEST, TIME_VIOLATION_EXCEPTION, arg);
+        super(ErrorType.TIME_VIOLATION, TIME_VIOLATION_EXCEPTION, arg);
     }
 }

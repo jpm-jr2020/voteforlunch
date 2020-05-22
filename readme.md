@@ -139,7 +139,7 @@
 ### Пример curl
 ##### `curl -s http://localhost:8080/voteforlunch/restaurants --user inga@gmail.com:passInga`
 
-## 2.3. Проголосовать за ресторан по его restaurantId.
+## 2.3.1. Проголосовать за ресторан по его restaurantId.
 
 #### `URL /votes`
 
@@ -181,12 +181,40 @@
   * Отсутствует параметр restaurantId
     * HTTP код ответа: 400
 	* Сообщение: Wrong request
-  * Попытка заново проголосовать после 11:00
-    * HTTP код ответа: 400
-	* Сообщение: Wrong request
+  * Пользователь уже голосовал сегодня
+    * HTTP код ответа: 422
+	* Сообщение: Validation error
 	
 ### Пример curl
 ##### `curl -X POST -i -s http://localhost:8080/voteforlunch/votes?restaurantId=100004 --user inga@gmail.com:passInga`
+
+## 2.3.2. Заново проголосовать сегодня за ресторан по его restaurantId.
+
+#### `URL /votes`
+
+### Запрос
+  * Метод: PUT
+  * Параметр URL: Long restaurantId
+
+### Ответ
+  * HTTP код ответа: 204
+
+### Ошибки
+  * Не найден ресторан, или в меню ресторана на сегодня нет блюд, или пользователь не голосовал сегодня
+    * HTTP код ответа: 422
+	* Сообщение: Data not found
+  * Некорректное значение restaurantId
+    * HTTP код ответа: 422
+	* Сообщение: Validation error
+  * Отсутствует параметр restaurantId
+    * HTTP код ответа: 400
+	* Сообщение: Wrong request
+  * Попытка проголосовать после 11:00
+    * HTTP код ответа: 422
+	* Сообщение: Time violation error
+	
+### Пример curl
+##### `curl -X PUT -i -s http://localhost:8080/voteforlunch/votes?restaurantId=100004 --user petr@yandex.ru:petr`
 
 ## 2.4. Получить историю своих голосований.
 
@@ -781,7 +809,7 @@
 ##### `curl -s http://localhost:8080/voteforlunch/restaurants --user petr@yandex.ru:petr`
 
 ### 6.8. Пользователь меняет свой голос в пользу нового ресторана
-##### `curl -X POST -i -s http://localhost:8080/voteforlunch/votes?restaurantId=100050 --user petr@yandex.ru:petr`
+##### `curl -X PUT -i -s http://localhost:8080/voteforlunch/votes?restaurantId=100050 --user petr@yandex.ru:petr`
 
 ### 6.9. Пользователь получает историю своих голосований
 ##### `curl -s http://localhost:8080/voteforlunch/votes --user petr@yandex.ru:petr`

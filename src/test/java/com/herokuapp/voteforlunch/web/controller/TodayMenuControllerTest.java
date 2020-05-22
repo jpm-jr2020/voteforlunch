@@ -24,7 +24,7 @@ class TodayMenuControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN_INGA)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_MD, RESTAURANTTO_PR_VOTED, RESTAURANTTO_HI))
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_MD, RESTAURANTTO_PR, RESTAURANTTO_HI))
                 .andDo(print());
     }
 
@@ -44,16 +44,6 @@ class TodayMenuControllerTest extends AbstractControllerTest {
     }
 
 //    // GET tests
-
-    @Test
-    void getByAdminVoted() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT_PR_ID)
-                .with(userHttpBasic(ADMIN_INGA)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_TO_MATCHER.contentJson(RESTAURANTTO_PR_VOTED))
-                .andDo(print());
-    }
 
     @Test
     void getByAdmin() throws Exception {
