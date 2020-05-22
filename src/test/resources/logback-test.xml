@@ -21,7 +21,7 @@
         <appender-ref ref="result"/>
     </logger>
 
-    <logger name="ru.javawebinar.topjava" level="debug"/>
+    <logger name="com.herokuapp.voteforlunch" level="debug"/>
 
     <root level="INFO">
         <appender-ref ref="console"/>

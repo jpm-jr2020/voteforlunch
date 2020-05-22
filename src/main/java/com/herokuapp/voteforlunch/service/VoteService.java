@@ -46,7 +46,7 @@ public class VoteService {
         return new VoteTo(vote);
     }
 
-    @CacheEvict(value = {"restaurants", "restaurantTos", "votes"}, allEntries = true)
+    @CacheEvict(value = {"restaurantTos", "votes"}, allEntries = true)
     @Transactional
     public VoteTo vote(long userId, long restaurantId, LocalDateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();
@@ -59,7 +59,7 @@ public class VoteService {
         return new VoteTo(save(vote, restaurantId));
     }
 
-    @CacheEvict(value = {"restaurants", "restaurantTos", "votes"}, allEntries = true)
+    @CacheEvict(value = {"restaurantTos", "votes"}, allEntries = true)
     @Transactional
     public void revote(long userId, long restaurantId, LocalDateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();

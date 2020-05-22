@@ -37,7 +37,7 @@ public class RestaurantService {
         return restaurantRepository.findAll(SORT_NAME_ADDRESS);
     }
 
-    @Cacheable("restaurants")
+    @Cacheable("restaurant")
     public Restaurant get(long id) {
         return checkNotFoundWithArg(restaurantRepository.findById(id).orElse(null), ENTITY_NAME, id);
     }
@@ -49,7 +49,7 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    @CacheEvict(value = {"restaurants", "restaurantTos", "menus", "votes"}, allEntries = true)
+    @CacheEvict(value = {"restaurants", "restaurant", "restaurantTos", "menus", "votes"}, allEntries = true)
     @Transactional
     public void update(Restaurant restaurant, long id) {
         Assert.notNull(restaurant, "restaurant must not be null");
@@ -58,7 +58,7 @@ public class RestaurantService {
         restaurantRepository.save(restaurant);
     }
 
-    @CacheEvict(value = {"restaurants", "restaurantTos", "menus", "votes"}, allEntries = true)
+    @CacheEvict(value = {"restaurants", "restaurant", "restaurantTos", "menus", "votes"}, allEntries = true)
     public void delete(long id) {
         checkNotFoundWithArg(restaurantRepository.delete(id) != 0, ENTITY_NAME, id);
     }

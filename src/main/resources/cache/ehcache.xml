@@ -28,6 +28,7 @@
 
 
     <cache alias="restaurants" uses-template="rareExpirySmallCache"/>
+    <cache alias="restaurant" uses-template="rareExpirySmallCache"/>
     <cache alias="menus" uses-template="fastExpiryMediumCache"/>
     <cache alias="restaurantTos" uses-template="fastExpiryBigCache"/>
     <cache alias="votes" uses-template="fastExpiryMediumCache"/>
