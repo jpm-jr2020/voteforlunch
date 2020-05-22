@@ -12,7 +12,7 @@ import java.util.List;
 
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
-@Table(name = "restaurants")
+@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "address"}, name = "restaurants_name_address_unique")})
 public class Restaurant extends AbstractNamedEntity {
     @Column(name = "address", nullable = false)
     @NotBlank

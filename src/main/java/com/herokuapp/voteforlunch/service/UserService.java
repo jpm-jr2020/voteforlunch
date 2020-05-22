@@ -2,7 +2,7 @@ package com.herokuapp.voteforlunch.service;
 
 import com.herokuapp.voteforlunch.AuthorizedUser;
 import com.herokuapp.voteforlunch.model.User;
-import com.herokuapp.voteforlunch.repository.user.UserRepository;
+import com.herokuapp.voteforlunch.repository.CrudUserRepository;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserService implements UserDetailsService {
 
-    private final UserRepository repository;
+    private final CrudUserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
+    public UserService(CrudUserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }

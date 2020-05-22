@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "votes")
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"fk_user_id", "date"}, name = "votes_user_date_unique")})
 @JsonIgnoreProperties({"id", "userId"})
 public class Vote extends AbstractEntity {
     @Column(name = "date", nullable = false)

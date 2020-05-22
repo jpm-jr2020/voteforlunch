@@ -1,4 +1,4 @@
-package com.herokuapp.voteforlunch.repository.restaurant;
+package com.herokuapp.voteforlunch.repository;
 
 import com.herokuapp.voteforlunch.model.Restaurant;
 import org.springframework.data.jpa.repository.EntityGraph;

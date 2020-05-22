@@ -1,4 +1,4 @@
-package com.herokuapp.voteforlunch.repository.user;
+package com.herokuapp.voteforlunch.repository;
 
 import com.herokuapp.voteforlunch.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
