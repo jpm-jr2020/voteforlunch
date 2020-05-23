@@ -6,6 +6,7 @@ import com.herokuapp.voteforlunch.repository.CrudVoteRepository;
 import com.herokuapp.voteforlunch.to.RestaurantTo;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +50,10 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    @CacheEvict(value = {"restaurants", "restaurant", "restaurantTos", "menus", "votes"}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = {"restaurants", "restaurantTos", "menus", "votes"}, allEntries = true),
+            @CacheEvict(value = "restaurant", key = "#id")
+    })
     @Transactional
     public void update(Restaurant restaurant, long id) {
         Assert.notNull(restaurant, "restaurant must not be null");
@@ -58,7 +62,10 @@ public class RestaurantService {
         restaurantRepository.save(restaurant);
     }
 
-    @CacheEvict(value = {"restaurants", "restaurant", "restaurantTos", "menus", "votes"}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = {"restaurants", "restaurantTos", "menus", "votes"}, allEntries = true),
+            @CacheEvict(value = "restaurant", key = "#id")
+    })
     public void delete(long id) {
         checkNotFoundWithArg(restaurantRepository.delete(id) != 0, ENTITY_NAME, id);
     }
